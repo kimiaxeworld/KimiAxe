@@ -19,6 +19,7 @@
     <div class="nav-links">
       <a href="index.html#platforms" class="nav-hide">All Platforms</a>
       <a href="#features" class="nav-hide">Features</a>
+      <a href="#domains" class="nav-hide">Domains</a>
       <a href="#pricing" class="nav-hide">Pricing</a>
       <a href="#" class="btn-outline" style="padding:6px 14px;font-size:0.8rem">Login</a>
       <a href="#" class="btn-white" style="padding:6px 14px;font-size:0.8rem">Get Started</a>
@@ -93,6 +94,65 @@
         <div class="mock-row"><span class="mock-dot yellow"></span> 🇦🇪 UAE · 2GB · 7 days · ₹599</div>
         <div class="mock-row"><span class="mock-dot"></span> 🇸🇬 Singapore · 1GB · 3 days · ₹299</div>
         <div class="mock-row"><span class="mock-dot blue"></span> 🌍 Global · 10GB · 30 days · ₹2,999</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOMAIN SEARCH SECTION -->
+<div id="domains" style="border-top:1px solid var(--border)">
+  <div class="content-block">
+    <div class="section-label">Domain Registration</div>
+    <div class="section-title">Find & register your <em>perfect domain</em></div>
+    <p style="color:var(--muted);max-width:560px;margin:0 auto 32px;text-align:center">Search from 500+ TLDs. Instant availability check. Register in seconds using your wallet balance.</p>
+
+    <!-- Domain Search Box -->
+    <form id="domain-search-form" style="display:flex;gap:10px;max-width:600px;margin:0 auto 32px;flex-wrap:wrap">
+      <input
+        id="domain-input"
+        type="text"
+        placeholder="Enter domain name (e.g. mybusiness)"
+        style="flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;color:var(--text);font-size:1rem;outline:none"
+      />
+      <button type="submit" class="btn-white" style="padding:14px 28px;border:none;cursor:pointer;font-size:0.95rem;border-radius:10px">🔍 Search</button>
+    </form>
+
+    <!-- Popular TLD Badges -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:32px">
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.com ₹899/yr</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.in ₹499/yr</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.net ₹799/yr</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.org ₹699/yr</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.io ₹2,499/yr</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.co ₹1,299/yr</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.ai ₹4,999/yr</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:4px 14px;font-size:0.78rem;color:var(--muted)">.store ₹1,499/yr</span>
+    </div>
+
+    <!-- Domain Search Results -->
+    <div id="domain-results" style="display:none;max-width:600px;margin:0 auto"></div>
+
+    <!-- Domain Features Row -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:800px;margin:40px auto 0">
+      <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:20px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:8px">🔒</div>
+        <div style="font-weight:600;margin-bottom:4px">Free SSL</div>
+        <div style="font-size:0.8rem;color:var(--muted)">HTTPS included with every domain</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:20px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:8px">🔄</div>
+        <div style="font-weight:600;margin-bottom:4px">Auto-Renewal</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Never lose your domain again</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:20px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:8px">🛡️</div>
+        <div style="font-weight:600;margin-bottom:4px">WHOIS Privacy</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Keep your info private, free</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:20px;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:8px">⚡</div>
+        <div style="font-weight:600;margin-bottom:4px">Instant Activation</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Live in minutes, not hours</div>
       </div>
     </div>
   </div>
