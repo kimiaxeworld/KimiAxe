@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kimiaxe — Subdomain Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: #111111;
+    --card2: #161616;
+    --border: #222;
+    --accent: #e8ff47;
+    --accent2: #47ffe8;
+    --text: #f0f0f0;
+    --muted: #666;
+    --danger: #ff4747;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+  }
+
+  .logo { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; }
+  .logo span { color: var(--accent); }
+
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+
+  .btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-ghost { background: transparent; color: var(--muted); }
+  .btn-ghost:hover { color: var(--text); border-color: #444; }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: #d4eb3a; transform: translateY(-1px); }
+
+  .btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); font-size: 0.75rem; padding: 5px 10px; }
+  .btn-danger:hover { background: var(--danger); color: #fff; }
+
+  .btn-sm { padding: 5px 12px; font-size: 0.78rem; }
+  .btn-accent2 { background: var(--accent2); color: #000; border-color: var(--accent2); }
+  .btn-accent2:hover { opacity: 0.85; }
+
+  /* LAYOUT */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding: 16px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+
+  .stat { flex: 1; min-width: 80px; }
+  .stat-num { font-size: 1.6rem; font-weight: 800; font-family: 'Space Mono', monospace; color: var(--accent); }
+  .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  /* SEARCH */
+  .search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .search-input {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--muted); }
+
+  /* CATEGORY SECTION */
+  .category-section {
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    animation: fadeUp 0.3s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--card2);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .cat-header:hover { background: #1a1a1a; }
+
+  .cat-title-group { display: flex; flex-direction: column; gap: 2px; }
+  .cat-tag { font-size: 0.65rem; font-family: 'Space Mono', monospace; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+  .cat-domain { font-size: 1.1rem; font-weight: 700; }
+
+  .cat-actions { display: flex; align-items: center; gap: 8px; }
+  .cat-chevron { color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
+  .cat-chevron.open { transform: rotate(180deg); }
+
+  .subdomains-list {
+    background: var(--card);
+    display: none;
+  }
+  .subdomains-list.open { display: block; }
+
+  .subdomain-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 20px;
+    border-top: 1px solid var(--border);
+    transition: background 0.15s;
+    gap: 12px;
+  }
+
+  .subdomain-item:hover { background: var(--card2); }
+
+  .sub-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .sub-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+  .sub-url {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    color: #ccc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sub-desc { font-size: 0.75rem; color: var(--muted); margin-left: 4px; }
+  .sub-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+  }
+  .icon-btn:hover { color: var(--text); background: #222; }
+  .icon-btn.del:hover { color: var(--danger); background: rgba(255,71,71,0.1); }
+
+  .add-sub-row {
+    padding: 10px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+  }
+
+  .add-sub-row input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 12px;
+    border-radius: 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    outline: none;
+  }
+  .add-sub-row input:focus { border-color: var(--accent2); }
+  .add-sub-row input::placeholder { color: var(--muted); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    width: 90%;
+    max-width: 420px;
+    animation: fadeUp 0.2s ease;
+  }
+
+  .modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; }
+
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .form-group input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    outline: none;
+  }
+  .form-group input:focus { border-color: var(--accent); }
+
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  /* EMPTY */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .page-sub {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  @media (max-width: 480px) {
+    .stat-num { font-size: 1.2rem; }
+    .cat-domain { font-size: 0.95rem; }
+    .sub-url { font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">kimi<span>axe</span></div>
+  <div class="nav-actions">
+    <button class="btn btn-ghost">Login</button>
+    <button class="btn btn-primary" onclick="openAddCategory()">+ Category</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-title">Subdomain Manager</div>
+  <div class="page-sub">// manage all your domains & subdomains</div>
+
+  <div class="stats-bar" id="statsBar"></div>
+
+  <div class="search-row">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search subdomains..." oninput="renderAll()">
+    <button class="btn btn-primary" onclick="openAddCategory()">+ New</button>
+  </div>
+
+  <div id="categoriesContainer"></div>
+</div>
+
+<!-- Add/Edit Category Modal -->
+<div class="modal-overlay" id="catModal">
+  <div class="modal">
+    <h3 id="catModalTitle">New Category</h3>
+    <div class="form-group">
+      <label>Category Name (tag)</label>
+      <input type="text" id="catTag" placeholder="e.g. MAIN HUB">
+    </div>
+    <div class="form-group">
+      <label>Root Domain</label>
+      <input type="text" id="catDomain" placeholder="e.g. kimiaxe.com">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('catModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCategory()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Subdomain Modal -->
+<div class="modal-overlay" id="subModal">
+  <div class="modal">
+    <h3 id="subModalTitle">Add Subdomain</h3>
+    <div class="form-group">
+      <label>Subdomain URL</label>
+      <input type="text" id="subUrl" placeholder="e.g. app.kimiaxe.com">
+    </div>
+    <div class="form-group">
+      <label>Description (optional)</label>
+      <input type="text" id="subDesc" placeholder="e.g. unified customer dashboard">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('subModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSubdomain()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Initial data from screenshots
+let data = [
+  {
+    id: 1,
+    tag: 'MAIN HUB',
+    domain: 'kimiaxe.com',
+    open: true,
+    subs: [
+      { id: 1, url: 'app.kimiaxe.com', desc: 'unified customer dashboard' },
+      { id: 2, url: 'api.kimiaxe.com', desc: 'shared platform APIs' },
+      { id: 3, url: 'status.kimiaxe.com', desc: 'uptime and incident feed' },
+    ]
+  },
+  {
+    id: 2,
+    tag: 'AXESMS',
+    domain: 'axesms.org',
+    open: false,
+    subs: [
+      { id: 1, url: 'api.axesms.org', desc: '' },
+      { id: 2, url: 'docs.axesms.org', desc: '' },
+      { id: 3, url: 'panel.axesms.org', desc: '' },
+    ]
+  },
+  {
+    id: 3,
+    tag: 'AXEXVX',
+    domain: 'axexvx.link',
+    open: false,
+    subs: [
+      { id: 1, url: 'cdn.axexvx.link', desc: '' },
+    ]
+  },
+  {
+    id: 4,
+    tag: 'AXEB2B WALLET',
+    domain: 'axeb2b.wallet',
+    open: false,
+    subs: [
+      { id: 1, url: 'pay.axeb2b.wallet', desc: '' },
+      { id: 2, url: 'kyc.axeb2b.wallet', desc: '' },
+      { id: 3, url: 'market.axeb2b.wallet', desc: '' },
+    ]
+  },
+  {
+    id: 5,
+    tag: 'AXESOCIALS',
+    domain: 'axesocials.com',
+    open: false,
+    subs: [
+      { id: 1, url: 'dashboard.axesocials.com', desc: '' },
+      { id: 2, url: 'api.axesocials.com', desc: '' },
+      { id: 3, url: 'agency.axesocials.com', desc: '' },
+    ]
+  },
+];
+
+let editingCatId = null;
+let editingSubCatId = null;
+let editingSubId = null;
+let nextCatId = 10;
+
+function totalSubs() {
+  return data.reduce((a, c) => a + c.subs.length, 0);
+}
+
+function updateStats() {
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat">
+      <div class="stat-num">${data.length}</div>
+      <div class="stat-label">Domains</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">${totalSubs()}</div>
+      <div class="stat-label">Subdomains</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">${data.length}</div>
+      <div class="stat-label">Categories</div>
+    </div>
+  `;
+}
+
+function renderAll() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const container = document.getElementById('categoriesContainer');
+  container.innerHTML = '';
+
+  let filtered = data.map(cat => ({
+    ...cat,
+    subs: q ? cat.subs.filter(s => s.url.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q)) : cat.subs
+  })).filter(cat => !q || cat.subs.length > 0 || cat.domain.toLowerCase().includes(q) || cat.tag.toLowerCase().includes(q));
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state">No results found. Add a new category to get started.</div>';
+    return;
+  }
+
+  filtered.forEach(cat => {
+    const isOpen = q ? true : cat.open;
+    const section = document.createElement('div');
+    section.className = 'category-section';
+    section.innerHTML = `
+      <div class="cat-header" onclick="toggleCat(${cat.id})">
+        <div class="cat-title-group">
+          <span class="cat-tag">${cat.tag}</span>
+          <span class="cat-domain">${cat.domain}</span>
+        </div>
+        <div class="cat-actions">
+          <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation(); openEditCategory(${cat.id})" title="Edit category">✏️</button>
+          <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); deleteCategory(${cat.id})" title="Delete category">✕</button>
+          <span class="cat-chevron ${isOpen ? 'open' : ''}">▼</span>
+        </div>
+      </div>
+      <div class="subdomains-list ${isOpen ? 'open' : ''}" id="subs-${cat.id}">
+        ${cat.subs.length === 0 ? '<div class="subdomain-item" style="color:var(--muted);font-size:0.8rem;">No subdomains yet.</div>' :
+          cat.subs.map(sub => `
+            <div class="subdomain-item">
+              <div class="sub-left">
+                <span class="sub-dot"></span>
+                <span class="sub-url">${sub.url}</span>
+                ${sub.desc ? `<span class="sub-desc">— ${sub.desc}</span>` : ''}
+              </div>
+              <div class="sub-actions">
+                <button class="icon-btn" onclick="openEditSub(${cat.id}, ${sub.id})" title="Edit">✏️</button>
+                <button class="icon-btn" onclick="window.open('https://'+${JSON.stringify(sub.url)}, '_blank')" title="Open">↗</button>
+                <button class="icon-btn del" onclick="deleteSub(${cat.id}, ${sub.id})" title="Delete">✕</button>
+              </div>
+            </div>
+          `).join('')}
+        <div class="add-sub-row">
+          <input type="text" placeholder="subdomain.${cat.domain}" id="quickAdd-${cat.id}" onkeydown="if(event.key==='Enter') quickAddSub(${cat.id})">
+          <button class="btn btn-sm btn-accent2" onclick="quickAddSub(${cat.id})">+ Add</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(section);
+  });
+
+  updateStats();
+}
+
+function toggleCat(id) {
+  const cat = data.find(c => c.id === id);
+  if (cat) cat.open = !cat.open;
+  renderAll();
+}
+
+// Category CRUD
+function openAddCategory() {
+  editingCatId = null;
+  document.getElementById('catModalTitle').textContent = 'New Category';
+  document.getElementById('catTag').value = '';
+  document.getElementById('catDomain').value = '';
+  document.getElementById('catModal').classList.add('open');
+}
+
+function openEditCategory(id) {
+  const cat = data.find(c => c.id === id);
+  editingCatId = id;
+  document.getElementById('catModalTitle').textContent = 'Edit Category';
+  document.getElementById('catTag').value = cat.tag;
+  document.getElementById('catDomain').value = cat.domain;
+  document.getElementById('catModal').classList.add('open');
+}
+
+function saveCategory() {
+  const tag = document.getElementById('catTag').value.trim().toUpperCase();
+  const domain = document.getElementById('catDomain').value.trim();
+  if (!tag || !domain) { alert('Please fill in all fields.'); return; }
+
+  if (editingCatId) {
+    const cat = data.find(c => c.id === editingCatId);
+    cat.tag = tag;
+    cat.domain = domain;
+  } else {
+    data.push({ id: nextCatId++, tag, domain, open: true, subs: [] });
+  }
+  closeModal('catModal');
+  renderAll();
+}
+
+function deleteCategory(id) {
+  if (!confirm('Delete this category and all its subdomains?')) return;
+  data = data.filter(c => c.id !== id);
+  renderAll();
+}
+
+// Subdomain CRUD
+function openEditSub(catId, subId) {
+  const cat = data.find(c => c.id === catId);
+  const sub = cat.subs.find(s => s.id === subId);
+  editingSubCatId = catId;
+  editingSubId = subId;
+  document.getElementById('subModalTitle').textContent = 'Edit Subdomain';
+  document.getElementById('subUrl').value = sub.url;
+  document.getElementById('subDesc').value = sub.desc;
+  document.getElementById('subModal').classList.add('open');
+}
+
+function saveSubdomain() {
+  const url = document.getElementById('subUrl').value.trim();
+  const desc = document.getElementById('subDesc').value.trim();
+  if (!url) { alert('Please enter a subdomain URL.'); return; }
+
+  const cat = data.find(c => c.id === editingSubCatId);
+  const sub = cat.subs.find(s => s.id === editingSubId);
+  sub.url = url;
+  sub.desc = desc;
+  closeModal('subModal');
+  renderAll();
+}
+
+function deleteSub(catId, subId) {
+  if (!confirm('Delete this subdomain?')) return;
+  const cat = data.find(c => c.id === catId);
+  cat.subs = cat.subs.filter(s => s.id !== subId);
+  renderAll();
+}
+
+function quickAddSub(catId) {
+  const input = document.getElementById(`quickAdd-${catId}`);
+  const url = input.value.trim();
+  if (!url) return;
+  const cat = data.find(c => c.id === catId);
+  const newId = cat.subs.length > 0 ? Math.max(...cat.subs.map(s => s.id)) + 1 : 1;
+  cat.subs.push({ id: newId, url, desc: '' });
+  input.value = '';
+  renderAll();
+  // Re-focus
+  setTimeout(() => {
+    const el = document.getElementById(`quickAdd-${catId}`);
+    if (el) el.focus();
+  }, 50);
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+});
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
