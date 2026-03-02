@@ -183,6 +183,8 @@ function renderMockTransactions() {
 })();
 
 // ---- DOMAIN SEARCH ----
+const domainCart = [];
+
 (function initDomainSearch() {
   const form = document.getElementById('domain-search-form');
   const results = document.getElementById('domain-results');
@@ -191,40 +193,107 @@ function renderMockTransactions() {
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const domain = document.getElementById('domain-input')?.value?.trim().toLowerCase();
+    // Strip TLD if user typed full domain
+    let raw = document.getElementById('domain-input')?.value?.trim().toLowerCase() || '';
+    const domain = raw.replace(/\.[a-z]{2,}$/, '').replace(/[^a-z0-9-]/g, '');
     if (!domain) return;
 
     const btn = form.querySelector('[type="submit"]');
     btn.disabled = true;
-    btn.textContent = 'Searching…';
-
-    await new Promise(r => setTimeout(r, 800));
-
-    const tlds = ['.com', '.in', '.net', '.org', '.io', '.co'];
-    const prices = { '.com': '₹899', '.in': '₹499', '.net': '₹799', '.org': '₹699', '.io': '₹2,499', '.co': '₹1,299' };
-    const available = tlds.filter(() => Math.random() > 0.3);
+    btn.innerHTML = '<span style="opacity:0.7">Searching…</span>';
 
     if (results) {
-      results.innerHTML = tlds.map(tld => `
-        <div class="vn-card" style="margin-bottom:8px">
-          <div class="vn-info">
-            <h4 style="font-family:'Geist Mono',monospace">${domain}${tld}</h4>
-            <p>${available.includes(tld) ? '✅ Available' : '❌ Taken'}</p>
-          </div>
-          <div class="vn-price">${prices[tld]}/yr</div>
-          ${available.includes(tld) ? `<button class="btn-wallet" style="padding:6px 14px;font-size:0.78rem" onclick="addDomainToCart('${domain}${tld}', '${prices[tld]}')">Add</button>` : ''}
+      results.style.display = 'block';
+      results.innerHTML = `
+        <div style="text-align:center;padding:32px;color:var(--muted)">
+          <div style="font-size:2rem;margin-bottom:8px">🔍</div>
+          Checking availability for <strong style="color:var(--text)">${domain}.*</strong>
+        </div>`;
+    }
+
+    await new Promise(r => setTimeout(r, 900));
+
+    const tlds = [
+      { ext: '.com', price: '₹899', popular: true },
+      { ext: '.in', price: '₹499', popular: true },
+      { ext: '.net', price: '₹799', popular: false },
+      { ext: '.org', price: '₹699', popular: false },
+      { ext: '.io', price: '₹2,499', popular: true },
+      { ext: '.co', price: '₹1,299', popular: false },
+      { ext: '.ai', price: '₹4,999', popular: true },
+      { ext: '.store', price: '₹1,499', popular: false },
+    ];
+
+    // Simulate availability (deterministic based on domain name for consistency)
+    const takenSet = new Set();
+    tlds.forEach(t => {
+      const hash = (domain + t.ext).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+      if (hash % 3 === 0) takenSet.add(t.ext);
+    });
+
+    if (results) {
+      results.innerHTML = `
+        <div style="margin-bottom:16px;font-size:0.85rem;color:var(--muted)">
+          Showing results for <strong style="color:var(--text);font-family:'Geist Mono',monospace">${domain}.*</strong>
         </div>
-      `).join('');
+        ${tlds.map(t => {
+          const isAvailable = !takenSet.has(t.ext);
+          const fullDomain = domain + t.ext;
+          return `
+            <div style="display:flex;align-items:center;gap:12px;background:var(--bg3);border:1px solid ${isAvailable ? 'var(--border2)' : 'var(--border)'};border-radius:10px;padding:14px 16px;margin-bottom:8px;opacity:${isAvailable ? '1' : '0.55'}">
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Geist Mono',monospace;font-size:0.95rem;font-weight:600;color:var(--text)">${fullDomain}</div>
+                <div style="font-size:0.75rem;margin-top:2px;color:${isAvailable ? '#22c55e' : '#ef4444'}">
+                  ${isAvailable ? '✅ Available' : '❌ Already Taken'}
+                  ${t.popular ? '<span style="margin-left:8px;background:rgba(249,115,22,0.15);color:#f97316;border-radius:4px;padding:1px 6px;font-size:0.7rem">Popular</span>' : ''}
+                </div>
+              </div>
+              <div style="font-family:'Geist Mono',monospace;font-weight:700;color:var(--text);white-space:nowrap">${t.price}<span style="font-size:0.7rem;color:var(--muted);font-weight:400">/yr</span></div>
+              ${isAvailable
+                ? `<button onclick="addDomainToCart('${fullDomain}','${t.price}')" style="background:var(--wallet-accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Add to Cart</button>`
+                : `<button disabled style="background:var(--bg2);color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:0.8rem;cursor:not-allowed;white-space:nowrap">Taken</button>`
+              }
+            </div>`;
+        }).join('')}
+        <div id="domain-cart-bar" style="display:none;margin-top:20px;background:linear-gradient(135deg,#1a1a1a,#0f0f0f);border:1px solid var(--wallet-badge-border);border-radius:12px;padding:16px 20px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div>
+              <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px">🛒 Cart</div>
+              <div id="domain-cart-items" style="font-family:'Geist Mono',monospace;font-size:0.9rem;color:var(--text)"></div>
+            </div>
+            <button onclick="checkoutDomains()" style="background:var(--wallet-accent);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:0.85rem;font-weight:600;cursor:pointer">Checkout →</button>
+          </div>
+        </div>`;
       results.style.display = 'block';
     }
 
     btn.disabled = false;
-    btn.textContent = 'Search';
+    btn.innerHTML = '🔍 Search';
   });
 })();
 
 window.addDomainToCart = function (domain, price) {
-  showToast(`${domain} added to cart (${price}/yr)`, 'success');
+  if (domainCart.find(d => d.domain === domain)) {
+    showToast(`${domain} is already in your cart.`, 'error');
+    return;
+  }
+  domainCart.push({ domain, price });
+  showToast(`${domain} added to cart!`, 'success');
+
+  const bar = document.getElementById('domain-cart-bar');
+  const items = document.getElementById('domain-cart-items');
+  if (bar && items) {
+    bar.style.display = 'block';
+    items.textContent = domainCart.map(d => `${d.domain} (${d.price}/yr)`).join(' · ');
+  }
+};
+
+window.checkoutDomains = function () {
+  if (domainCart.length === 0) return;
+  const list = domainCart.map(d => `${d.domain} — ${d.price}/yr`).join('\n');
+  showToast(`Proceeding to checkout for ${domainCart.length} domain(s). Login required.`, 'success');
+  // In production: redirect to checkout page or open auth modal
+  if (typeof openModal === 'function') openModal('auth');
 };
 
 // ---- BALANCE CHART ----
