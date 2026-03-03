@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AxeSocials Dashboard — KimiAxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999;--sw:220px}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);border-right:1px solid var(--bd);background:var(--bg);z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--bd)}
+.logo{font-family:'Geist Mono',monospace;font-size:1rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.sb-plat{padding:12px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.sb-section{padding:10px 10px 4px}
+.sb-label{font-size:0.58rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;font-family:'Geist Mono',monospace;padding:0 8px;margin-bottom:3px}
+.sb-link{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;font-size:0.8rem;color:var(--m);cursor:pointer;transition:all 0.15s;margin-bottom:1px}
+.sb-link:hover,.sb-link.active{background:var(--bg3);color:var(--t)}
+.sb-link .ic{width:18px;text-align:center}
+.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--bd)}
+.main{margin-left:var(--sw);min-height:100vh}
+.topbar{height:52px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-title{font-size:0.9rem;font-weight:700}
+.tb-r{display:flex;align-items:center;gap:8px}
+.pbtn{background:var(--t);color:#000;padding:7px 14px;border-radius:7px;font-weight:700;font-size:0.78rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.pbtn:hover{background:#e5e5e5}
+.obtn{background:transparent;color:var(--t);padding:7px 14px;border-radius:7px;font-size:0.78rem;border:1px solid var(--bd2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.obtn:hover{border-color:#555}
+.content{padding:24px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.sc-l{font-size:0.65rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;font-family:'Geist Mono',monospace;margin-bottom:6px}
+.sc-v{font-family:'Instrument Serif',serif;font-size:1.8rem;letter-spacing:-1px}
+.sc-s{font-size:0.7rem;color:var(--m);margin-top:2px}
+/* COMPOSE */
+.compose-area{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
+.ca-head{font-size:0.88rem;font-weight:700;margin-bottom:16px}
+.platform-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.pp{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;border:1px solid var(--bd);background:var(--bg3);font-size:0.75rem;cursor:pointer;transition:all 0.15s}
+.pp.selected{border-color:var(--t);background:rgba(255,255,255,0.06);color:var(--t)}
+.pp:hover{border-color:var(--bd2)}
+.compose-box{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:12px;min-height:120px;outline:none;font-family:'DM Sans',sans-serif;font-size:0.87rem;color:var(--t);width:100%;resize:vertical}
+.compose-box:focus{border-color:var(--bd2)}
+.compose-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.compose-tools{display:flex;gap:8px}
+.tool-btn{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:6px 12px;font-size:0.75rem;color:var(--m);cursor:pointer;transition:all 0.15s}
+.tool-btn:hover{color:var(--t);border-color:var(--bd2)}
+.compose-actions{display:flex;gap:8px}
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+.panel{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px}
+.p-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.p-title{font-size:0.88rem;font-weight:700}
+.week-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.day-label{font-size:0.65rem;color:var(--m);text-align:center;padding:4px 0;font-family:'Geist Mono',monospace}
+.day{min-height:56px;border:1px solid var(--bd);border-radius:6px;padding:4px;cursor:pointer;transition:all 0.15s}
+.day:hover{border-color:var(--bd2)}
+.day.today{border-color:var(--t)}
+.day-num{font-size:0.72rem;color:var(--m);margin-bottom:3px}
+.day.today .day-num{color:var(--t);font-weight:700}
+.post-dot{width:100%;height:4px;border-radius:2px;margin-bottom:2px}
+/* ACCOUNTS */
+.accs{display:flex;flex-direction:column;gap:8px}
+.acc-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px}
+.acc-l{display:flex;align-items:center;gap:10px;font-size:0.82rem}
+.acc-icon{font-size:1.1rem;width:24px;text-align:center}
+.acc-connect{font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace;padding:4px 10px;border:1px solid var(--bd);border-radius:4px;cursor:pointer;background:transparent;color:var(--m);transition:all 0.15s}
+.acc-connect:hover{color:var(--t);border-color:var(--bd2)}
+.acc-connected{font-size:0.7rem;color:#22c55e;font-family:'Geist Mono',monospace;display:flex;align-items:center;gap:4px}
+.dot-g{width:5px;height:5px;background:#22c55e;border-radius:50%;box-shadow:0 0 5px #22c55e}
+/* INBOX */
+.inbox-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.inbox-item:last-child{border-bottom:none}
+.inbox-icon{font-size:1.1rem;width:24px;text-align:center;flex-shrink:0}
+.inbox-content{flex:1}
+.inbox-handle{font-size:0.75rem;color:var(--m);font-family:'Geist Mono',monospace;margin-bottom:2px}
+.inbox-msg{font-size:0.8rem;color:var(--t)}
+.inbox-time{font-size:0.65rem;color:var(--m);font-family:'Geist Mono',monospace;white-space:nowrap}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.stats-row,.cal-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><a href="dashboard.html" class="logo">kimi<span>axe</span></a></div>
+  <div class="sb-plat">
+    <span style="font-size:1.2rem">📣</span>
+    <div><div style="font-size:0.88rem;font-weight:700">AxeSocials</div><div style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">axesocials.com</div></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Create</div>
+    <div class="sb-link active"><span class="ic">✏️</span> Compose Post</div>
+    <div class="sb-link"><span class="ic">📅</span> Calendar</div>
+    <div class="sb-link"><span class="ic">📦</span> Bulk Schedule</div>
+    <div class="sb-link"><span class="ic">🔄</span> Recycled Posts</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Manage</div>
+    <div class="sb-link"><span class="ic">📥</span> Unified Inbox</div>
+    <div class="sb-link"><span class="ic">🔗</span> Accounts</div>
+    <div class="sb-link"><span class="ic">📊</span> Analytics</div>
+    <div class="sb-link"><span class="ic">🏷️</span> Hashtags</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Agency</div>
+    <div class="sb-link"><span class="ic">👥</span> Clients</div>
+    <div class="sb-link"><span class="ic">📋</span> Reports</div>
+    <div class="sb-link"><span class="ic">🏪</span> White Label</div>
+  </div>
+  <div class="sb-bottom">
+    <a href="dashboard.html" class="sb-link"><span class="ic">←</span> All Platforms</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><span>📣</span><div class="tb-title">AxeSocials Dashboard</div></div>
+    <div class="tb-r">
+      <button class="obtn">🤖 AI Generate</button>
+      <button class="pbtn">+ New Post</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="stats-row">
+      <div class="sc"><div class="sc-l">Posts Scheduled</div><div class="sc-v">0</div><div class="sc-s">This week</div></div>
+      <div class="sc"><div class="sc-l">Total Reach</div><div class="sc-v">0</div><div class="sc-s">Connect accounts</div></div>
+      <div class="sc"><div class="sc-l">Engagements</div><div class="sc-v">0</div><div class="sc-s">Likes + comments</div></div>
+      <div class="sc"><div class="sc-l">Accounts</div><div class="sc-v">0</div><div class="sc-s">Connect below</div></div>
+    </div>
+
+```
+<!-- COMPOSE -->
+<div class="compose-area">
+  <div class="ca-head">Compose Post</div>
+  <div class="platform-pills">
+    <div class="pp selected" onclick="togglePlat(this)">📘 Facebook</div>
+    <div class="pp selected" onclick="togglePlat(this)">📸 Instagram</div>
+    <div class="pp" onclick="togglePlat(this)">🐦 Twitter/X</div>
+    <div class="pp" onclick="togglePlat(this)">💼 LinkedIn</div>
+    <div class="pp" onclick="togglePlat(this)">✈️ Telegram</div>
+    <div class="pp" onclick="togglePlat(this)">💬 WhatsApp</div>
+    <div class="pp" onclick="togglePlat(this)">▶️ YouTube</div>
+    <div class="pp" onclick="togglePlat(this)">🎵 TikTok</div>
+    <div class="pp" onclick="togglePlat(this)">🧵 Threads</div>
+  </div>
+  <textarea class="compose-box" placeholder="What would you like to share? Or click AI Generate to create content automatically..."></textarea>
+  <div class="compose-footer">
+    <div class="compose-tools">
+      <button class="tool-btn">📎 Media</button>
+      <button class="tool-btn">🏷️ Hashtags</button>
+      <button class="tool-btn">😊 Emoji</button>
+      <button class="tool-btn">🔗 Link</button>
+      <button class="tool-btn">🤖 AI Write</button>
+    </div>
+    <div class="compose-actions">
+      <button class="obtn" style="font-size:0.78rem;padding:7px 14px">Save Draft</button>
+      <button class="obtn" style="font-size:0.78rem;padding:7px 14px">📅 Schedule</button>
+      <button class="pbtn" style="font-size:0.78rem;padding:7px 14px">Post Now →</button>
+    </div>
+  </div>
+</div>
+
+<!-- CAL + ACCOUNTS -->
+<div class="cal-grid">
+  <div class="panel">
+    <div class="p-head"><div class="p-title">Content Calendar — March 2025</div><div style="display:flex;gap:6px"><button class="obtn" style="font-size:0.7rem;padding:4px 10px">← Prev</button><button class="obtn" style="font-size:0.7rem;padding:4px 10px">Next →</button></div></div>
+    <div class="week-cal">
+      <div class="day-label">Mon</div><div class="day-label">Tue</div><div class="day-label">Wed</div>
+      <div class="day-label">Thu</div><div class="day-label">Fri</div><div class="day-label">Sat</div><div class="day-label">Sun</div>
+    </div>
+    <div class="week-cal" style="margin-top:4px">
+      <div class="day"><div class="day-num">3</div></div>
+      <div class="day today"><div class="day-num">4</div><div class="post-dot" style="background:rgba(255,255,255,0.3)"></div></div>
+      <div class="day"><div class="day-num">5</div></div>
+      <div class="day"><div class="day-num">6</div></div>
+      <div class="day"><div class="day-num">7</div><div class="post-dot" style="background:rgba(255,255,255,0.2)"></div></div>
+      <div class="day"><div class="day-num">8</div></div>
+      <div class="day"><div class="day-num">9</div></div>
+      <div class="day"><div class="day-num">10</div></div>
+      <div class="day"><div class="day-num">11</div></div>
+      <div class="day"><div class="day-num">12</div></div>
+      <div class="day"><div class="day-num">13</div><div class="post-dot" style="background:rgba(255,255,255,0.2)"></div></div>
+      <div class="day"><div class="day-num">14</div></div>
+      <div class="day"><div class="day-num">15</div></div>
+      <div class="day"><div class="day-num">16</div></div>
+    </div>
+    <div style="margin-top:12px;text-align:center;color:var(--m);font-size:0.78rem">Connect accounts to start scheduling posts</div>
+  </div>
+
+  <div class="panel">
+    <div class="p-head"><div class="p-title">Connected Accounts</div></div>
+    <div class="accs">
+      <div class="acc-item"><div class="acc-l"><span class="acc-icon">📘</span>Facebook</div><button class="acc-connect">Connect</button></div>
+      <div class="acc-item"><div class="acc-l"><span class="acc-icon">📸</span>Instagram</div><button class="acc-connect">Connect</button></div>
+      <div class="acc-item"><div class="acc-l"><span class="acc-icon">🐦</span>Twitter/X</div><button class="acc-connect">Connect</button></div>
+      <div class="acc-item"><div class="acc-l"><span class="acc-icon">💼</span>LinkedIn</div><button class="acc-connect">Connect</button></div>
+      <div class="acc-item"><div class="acc-l"><span class="acc-icon">✈️</span>Telegram</div><div class="acc-connected"><div class="dot-g"></div>Connected</div></div>
+      <div class="acc-item"><div class="acc-l"><span class="acc-icon">▶️</span>YouTube</div><button class="acc-connect">Connect</button></div>
+      <div class="acc-item"><div class="acc-l"><span class="acc-icon">🎵</span>TikTok</div><button class="acc-connect">Connect</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- INBOX -->
+<div class="panel">
+  <div class="p-head"><div class="p-title">Unified Inbox</div><button class="obtn" style="font-size:0.7rem;padding:4px 12px">Mark all read</button></div>
+  <div style="text-align:center;padding:32px;color:var(--m);font-size:0.82rem">
+    Connect your social accounts to see all messages, comments & mentions in one place.
+  </div>
+</div>
+```
+
+  </div>
+</div>
+<script>
+function togglePlat(el){el.classList.toggle('selected')}
+</script>
+</body>
+</html>
