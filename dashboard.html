@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dashboard — KimiAxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999;--sw:240px}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);border-right:1px solid var(--bd);background:var(--bg);z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:20px 20px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Geist Mono',monospace;font-size:1.05rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.sb-user{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.avatar{width:34px;height:34px;background:var(--bg3);border:1px solid var(--bd2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;font-family:'Geist Mono',monospace;flex-shrink:0}
+.uname{font-size:0.82rem;font-weight:600;line-height:1.2}
+.uemail{font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace}
+.sb-section{padding:12px 12px 4px}
+.sb-label{font-size:0.6rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;font-family:'Geist Mono',monospace;padding:0 8px;margin-bottom:4px}
+.sb-link{display:flex;align-items:center;gap:9px;padding:8px 8px;border-radius:7px;font-size:0.82rem;color:var(--m);cursor:pointer;transition:all 0.15s;margin-bottom:1px}
+.sb-link:hover{background:var(--bg3);color:var(--t)}
+.sb-link.active{background:var(--bg3);color:var(--t)}
+.sb-link .icon{width:20px;text-align:center;font-size:1rem;flex-shrink:0}
+.sb-link .badge{margin-left:auto;background:var(--t);color:#000;font-size:0.6rem;font-weight:700;padding:2px 6px;border-radius:100px;font-family:'Geist Mono',monospace}
+.sb-bottom{margin-top:auto;padding:12px;border-top:1px solid var(--bd)}
+/* MAIN */
+.main{margin-left:var(--sw);min-height:100vh}
+/* TOP BAR */
+.topbar{height:56px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.tb-left{display:flex;align-items:center;gap:12px}
+.tb-title{font-size:0.92rem;font-weight:700}
+.tb-sub{font-size:0.78rem;color:var(--m)}
+.tb-right{display:flex;align-items:center;gap:12px}
+.notif-btn{position:relative;width:34px;height:34px;border:1px solid var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg2);font-size:1rem;transition:all 0.15s}
+.notif-btn:hover{border-color:var(--bd2)}
+.notif-dot{position:absolute;top:6px;right:6px;width:6px;height:6px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px #22c55e}
+.wallet-pill{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:6px 14px;font-size:0.8rem;cursor:pointer;transition:all 0.15s}
+.wallet-pill:hover{border-color:var(--bd2)}
+.wp-bal{font-family:'Geist Mono',monospace;font-weight:700;color:var(--t)}
+.wp-label{color:var(--m);font-size:0.72rem}
+.add-btn{background:var(--t);color:#000;padding:7px 14px;border-radius:7px;font-size:0.78rem;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.add-btn:hover{background:#e5e5e5}
+/* CONTENT */
+.content{padding:28px}
+/* GREETING */
+.greeting{margin-bottom:32px}
+.g-label{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.g-title{font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px;margin-bottom:4px}
+.g-title em{font-style:italic;color:var(--m)}
+.g-sub{font-size:0.85rem;color:var(--m)}
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:18px 20px}
+.sc-label{font-size:0.68rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;font-family:'Geist Mono',monospace;margin-bottom:8px}
+.sc-val{font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px;margin-bottom:2px}
+.sc-change{font-size:0.72rem;color:var(--m)}
+.sc-change.up{color:#22c55e}
+/* PLATFORMS GRID */
+.plat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.plat-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;cursor:pointer;transition:all 0.2s;display:block}
+.plat-card:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.pc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.pc-icon{font-size:1.4rem}
+.pc-status{display:flex;align-items:center;gap:5px;font-size:0.65rem;color:var(--m);font-family:'Geist Mono',monospace}
+.dot{width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 5px #22c55e}
+.pc-name{font-size:0.92rem;font-weight:700;margin-bottom:4px}
+.pc-desc{font-size:0.75rem;color:var(--m);margin-bottom:14px;line-height:1.5}
+.pc-stat{font-family:'Geist Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--t)}
+.pc-stat-label{font-size:0.65rem;color:var(--m)}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--bd)}
+.pc-link{font-size:0.72rem;color:var(--m);display:flex;align-items:center;gap:4px;transition:color 0.15s}
+.plat-card:hover .pc-link{color:var(--t)}
+/* BOTTOM GRID */
+.bottom-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+.activity-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px}
+.ac-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.ac-title{font-size:0.88rem;font-weight:700}
+.ac-more{font-size:0.72rem;color:var(--m);cursor:pointer;font-family:'Geist Mono',monospace}
+.ac-more:hover{color:var(--t)}
+.act-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.act-item:last-child{border-bottom:none}
+.act-icon{width:32px;height:32px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0}
+.act-text{flex:1}
+.act-title{font-size:0.8rem;font-weight:500;margin-bottom:2px}
+.act-sub{font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace}
+.act-time{font-size:0.65rem;color:var(--m);font-family:'Geist Mono',monospace;white-space:nowrap}
+.quick-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px}
+.qc-title{font-size:0.88rem;font-weight:700;margin-bottom:14px}
+.quick-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--bg3);font-size:0.8rem;cursor:pointer;transition:all 0.15s;width:100%;margin-bottom:8px;color:var(--t);font-family:'DM Sans',sans-serif}
+.quick-btn:hover{border-color:var(--bd2)}
+.quick-btn .qi{font-size:1rem;width:20px;text-align:center}
+@media(max-width:1024px){.stats-row{grid-template-columns:repeat(2,1fr)}.plat-grid{grid-template-columns:repeat(2,1fr)}.bottom-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <a href="index.html" class="logo">kimi<span>axe</span></a>
+    <span style="font-size:0.65rem;color:var(--m);font-family:'Geist Mono',monospace">BETA</span>
+  </div>
+  <div class="sb-user">
+    <div class="avatar">AK</div>
+    <div>
+      <div class="uname">Axe Kumar</div>
+      <div class="uemail">axe@kimiaxe.com</div>
+    </div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Main</div>
+    <a href="dashboard.html" class="sb-link active"><span class="icon">⊞</span> Dashboard</a>
+    <a href="wallet-dashboard.html" class="sb-link"><span class="icon">💳</span> Wallet <span class="badge">₹0</span></a>
+    <a href="#" class="sb-link"><span class="icon">🔔</span> Notifications <span class="badge">3</span></a>
+    <a href="#" class="sb-link"><span class="icon">📊</span> Analytics</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Platforms</div>
+    <a href="sms-dashboard.html" class="sb-link"><span class="icon">📱</span> AxeSMS</a>
+    <a href="xvx-dashboard.html" class="sb-link"><span class="icon">🔗</span> AxeXVX</a>
+    <a href="ai-dashboard.html" class="sb-link"><span class="icon">🤖</span> AxeB2B AI</a>
+    <a href="wallet-dashboard.html" class="sb-link"><span class="icon">💰</span> AxeB2B Wallet</a>
+    <a href="socials-dashboard.html" class="sb-link"><span class="icon">📣</span> AxeSocials</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Account</div>
+    <a href="profile.html" class="sb-link"><span class="icon">👤</span> Profile</a>
+    <a href="billing.html" class="sb-link"><span class="icon">🧾</span> Billing</a>
+    <a href="api-keys.html" class="sb-link"><span class="icon">🔑</span> API Keys</a>
+    <a href="team.html" class="sb-link"><span class="icon">👥</span> Team</a>
+    <a href="settings.html" class="sb-link"><span class="icon">⚙️</span> Settings</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Help</div>
+    <a href="docs.html" class="sb-link"><span class="icon">📖</span> Documentation</a>
+    <a href="support.html" class="sb-link"><span class="icon">💬</span> Support</a>
+  </div>
+  <div class="sb-bottom">
+    <a href="login.html" class="sb-link" style="color:#ef4444"><span class="icon">→</span> Sign Out</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-title">Dashboard</div>
+      <div class="tb-sub">All platforms overview</div>
+    </div>
+    <div class="tb-right">
+      <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+      <div class="wallet-pill">
+        <div><div class="wp-label">Wallet</div><div class="wp-bal">₹0.00</div></div>
+      </div>
+      <button class="add-btn" onclick="window.location.href='wallet-dashboard.html'">+ Add Money</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="greeting">
+      <div class="g-label">Good morning</div>
+      <div class="g-title">Welcome back, <em>Axe</em> 👋</div>
+      <div class="g-sub">Here's what's happening across your 6 platforms today.</div>
+    </div>
+
+```
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="sc-label">Wallet Balance</div>
+    <div class="sc-val">₹0</div>
+    <div class="sc-change">Add money to get started</div>
+  </div>
+  <div class="stat-card">
+    <div class="sc-label">SMS Sent Today</div>
+    <div class="sc-val">0</div>
+    <div class="sc-change up">↑ Setup AxeSMS first</div>
+  </div>
+  <div class="stat-card">
+    <div class="sc-label">Links Created</div>
+    <div class="sc-val">0</div>
+    <div class="sc-change">Start shortening links</div>
+  </div>
+  <div class="stat-card">
+    <div class="sc-label">Active Platforms</div>
+    <div class="sc-val">6</div>
+    <div class="sc-change up">↑ All systems operational</div>
+  </div>
+</div>
+
+<!-- PLATFORMS GRID -->
+<div style="font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px">Your Platforms</div>
+<div class="plat-grid">
+  <a href="sms-dashboard.html" class="plat-card">
+    <div class="pc-top"><span class="pc-icon">📱</span><div class="pc-status"><div class="dot"></div>Active</div></div>
+    <div class="pc-name">AxeSMS</div>
+    <div class="pc-desc">Bulk SMS, Email & WhatsApp messaging</div>
+    <div class="pc-stat">0</div><div class="pc-stat-label">Messages sent</div>
+    <div class="pc-footer"><span class="pc-link">Open Dashboard →</span><span style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">axesms.org</span></div>
+  </a>
+  <a href="xvx-dashboard.html" class="plat-card">
+    <div class="pc-top"><span class="pc-icon">🔗</span><div class="pc-status"><div class="dot"></div>Active</div></div>
+    <div class="pc-name">AxeXVX</div>
+    <div class="pc-desc">Link shortener, APK & file hosting</div>
+    <div class="pc-stat">0</div><div class="pc-stat-label">Links created</div>
+    <div class="pc-footer"><span class="pc-link">Open Dashboard →</span><span style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">axexvx.link</span></div>
+  </a>
+  <a href="ai-dashboard.html" class="plat-card">
+    <div class="pc-top"><span class="pc-icon">🤖</span><div class="pc-status"><div class="dot"></div>Active</div></div>
+    <div class="pc-name">AxeB2B AI</div>
+    <div class="pc-desc">AI Chatbot & auto social posting</div>
+    <div class="pc-stat">0</div><div class="pc-stat-label">AI posts generated</div>
+    <div class="pc-footer"><span class="pc-link">Open Dashboard →</span><span style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">axeb2b.ai</span></div>
+  </a>
+  <a href="wallet-dashboard.html" class="plat-card">
+    <div class="pc-top"><span class="pc-icon">💰</span><div class="pc-status"><div class="dot"></div>Active</div></div>
+    <div class="pc-name">AxeB2B Wallet</div>
+    <div class="pc-desc">Wallet, eSIM & domain marketplace</div>
+    <div class="pc-stat">₹0</div><div class="pc-stat-label">Balance available</div>
+    <div class="pc-footer"><span class="pc-link">Open Dashboard →</span><span style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">axeb2b.wallet</span></div>
+  </a>
+  <a href="socials-dashboard.html" class="plat-card">
+    <div class="pc-top"><span class="pc-icon">📣</span><div class="pc-status"><div class="dot"></div>Active</div></div>
+    <div class="pc-name">AxeSocials</div>
+    <div class="pc-desc">Social media management & scheduler</div>
+    <div class="pc-stat">0</div><div class="pc-stat-label">Posts scheduled</div>
+    <div class="pc-footer"><span class="pc-link">Open Dashboard →</span><span style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">axesocials.com</span></div>
+  </a>
+  <div class="plat-card" style="border-style:dashed;cursor:default;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;text-align:center">
+    <div style="font-size:1.5rem">⚡</div>
+    <div style="font-size:0.85rem;font-weight:700">Quick Actions</div>
+    <button onclick="window.location.href='sms-dashboard.html'" style="background:var(--t);color:#000;border:none;padding:7px 14px;border-radius:6px;font-size:0.75rem;font-weight:700;cursor:pointer;margin-top:4px;width:100%">Send Bulk SMS</button>
+    <button onclick="window.location.href='xvx-dashboard.html'" style="background:var(--bg3);color:var(--t);border:1px solid var(--bd2);padding:7px 14px;border-radius:6px;font-size:0.75rem;cursor:pointer;width:100%">Shorten a Link</button>
+  </div>
+</div>
+
+<!-- BOTTOM -->
+<div class="bottom-grid">
+  <div class="activity-card">
+    <div class="ac-head"><div class="ac-title">Recent Activity</div><div class="ac-more">View all →</div></div>
+    <div class="act-item">
+      <div class="act-icon">🎉</div>
+      <div class="act-text"><div class="act-title">Account created successfully</div><div class="act-sub">Welcome to KimiAxe!</div></div>
+      <div class="act-time">Just now</div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon">📱</div>
+      <div class="act-text"><div class="act-title">AxeSMS activated</div><div class="act-sub">Ready to send bulk messages</div></div>
+      <div class="act-time">Just now</div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon">🤖</div>
+      <div class="act-text"><div class="act-title">AI system online</div><div class="act-sub">Auto-monitoring all platforms</div></div>
+      <div class="act-time">Just now</div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon">🔒</div>
+      <div class="act-text"><div class="act-title">Security scan complete</div><div class="act-sub">All systems secure & operational</div></div>
+      <div class="act-time">Just now</div>
+    </div>
+  </div>
+  <div class="quick-card">
+    <div class="qc-title">Quick Actions</div>
+    <button class="quick-btn" onclick="window.location.href='sms-dashboard.html'"><span class="qi">📱</span> Send Bulk SMS</button>
+    <button class="quick-btn" onclick="window.location.href='xvx-dashboard.html'"><span class="qi">🔗</span> Shorten Link</button>
+    <button class="quick-btn" onclick="window.location.href='ai-dashboard.html'"><span class="qi">🤖</span> Create AI Post</button>
+    <button class="quick-btn" onclick="window.location.href='wallet-dashboard.html'"><span class="qi">💰</span> Add Money</button>
+    <button class="quick-btn" onclick="window.location.href='socials-dashboard.html'"><span class="qi">📣</span> Schedule Post</button>
+    <button class="quick-btn" onclick="window.location.href='api-keys.html'"><span class="qi">🔑</span> Get API Key</button>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+</body>
+</html>
