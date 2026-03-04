@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>System Status — KimiAxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--bd);background:rgba(0,0,0,0.92);backdrop-filter:blur(20px);height:56px;display:flex;align-items:center}
+.ni{max-width:1100px;margin:0 auto;padding:0 24px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Geist Mono',monospace;font-size:1.05rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.navl{display:flex;gap:8px;align-items:center}
+.navl a{color:var(--m);font-size:0.8rem;padding:6px 12px;border-radius:6px;transition:all .15s}
+.navl a:hover{color:var(--t);background:var(--bg3)}
+.btn-w{background:var(--t);color:#000!important;padding:7px 16px;border-radius:6px;font-weight:600;font-size:0.8rem}
+.wrap{max-width:1100px;margin:0 auto;padding:88px 24px 100px}
+.ph{padding:48px 0 40px;border-bottom:1px solid var(--bd);margin-bottom:48px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.pl{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.pt{font-family:'Instrument Serif',serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:10px}
+.pt em{font-style:italic;color:var(--m)}
+.pd{font-size:0.88rem;color:var(--m);line-height:1.7}
+.ob{display:flex;align-items:center;gap:10px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:12px;padding:16px 24px;white-space:nowrap}
+.ob-dot{width:10px;height:10px;background:#22c55e;border-radius:50%;box-shadow:0 0 10px #22c55e;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.ob-title{font-size:0.92rem;font-weight:700;color:#22c55e}
+.ob-sub{font-size:0.7rem;color:#22c55e;opacity:.7;font-family:'Geist Mono',monospace;margin-top:2px}
+.urow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:40px}
+.uc{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:18px;text-align:center}
+.uc-v{font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px}
+.uc-l{font-size:0.65rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;font-family:'Geist Mono',monospace;margin-top:4px}
+.stitle{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.scard{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.scard-head{padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.scard-title{font-size:0.85rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.scard-dom{font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace}
+.srow{display:grid;grid-template-columns:1fr 80px 60px 100px;gap:12px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--bd)}
+.srow:last-child{border-bottom:none}
+.srow-name{font-size:0.82rem;font-weight:500;display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dg{background:#22c55e;box-shadow:0 0 6px #22c55e}
+.dy{background:#eab308;box-shadow:0 0 6px #eab308}
+.dr{background:#ef4444;box-shadow:0 0 6px #ef4444}
+.srow-lat{font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace;text-align:right}
+.srow-up{font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace;text-align:right}
+.sbadge{font-size:0.62rem;padding:3px 8px;border-radius:4px;font-family:'Geist Mono',monospace;letter-spacing:1px;text-align:center}
+.op{background:rgba(34,197,94,0.08);color:#22c55e;border:1px solid rgba(34,197,94,0.15)}
+.deg{background:rgba(234,179,8,0.08);color:#eab308;border:1px solid rgba(234,179,8,0.15)}
+.dn{background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.15)}
+.inc-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px}
+.sub-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sub-card h3{font-size:0.92rem;font-weight:700;margin-bottom:4px}
+.sub-card p{font-size:0.78rem;color:var(--m)}
+.sub-form{display:flex;gap:8px}
+.sub-in{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;color:var(--t);font-size:0.82rem;font-family:'DM Sans',sans-serif;outline:none;width:200px}
+.sub-in:focus{border-color:var(--bd2)}
+.sub-in::placeholder{color:var(--m)}
+.sub-btn{background:var(--t);color:#000;padding:10px 16px;border-radius:8px;font-weight:700;font-size:0.8rem;border:none;cursor:pointer}
+footer{border-top:1px solid var(--bd);padding:28px 24px;margin-top:60px}
+.fi{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.fc{font-size:0.72rem;color:var(--m)}
+.flinks{display:flex;gap:16px}
+.flinks a{font-size:0.72rem;color:var(--m)}
+.flinks a:hover{color:var(--t)}
+.rbtn{font-size:0.7rem;color:var(--m);border:1px solid var(--bd);padding:4px 10px;border-radius:6px;cursor:pointer;background:transparent;font-family:'Geist Mono',monospace}
+.rbtn:hover{color:var(--t);border-color:var(--bd2)}
+@media(max-width:768px){.urow{grid-template-columns:1fr 1fr}.srow{grid-template-columns:1fr auto}.srow-lat,.srow-up{display:none}}
+</style>
+</head>
+<body>
+<nav><div class="ni">
+  <a href="index.html" class="logo">kimi<span>axe</span></a>
+  <div class="navl">
+    <a href="index.html">Home</a><a href="docs.html">Docs</a><a href="contact.html">Contact</a>
+    <a href="dashboard.html" class="btn-w">Dashboard →</a>
+  </div>
+</div></nav>
+<div class="wrap">
+  <div class="ph">
+    <div>
+      <div class="pl">System Status</div>
+      <div class="pt">All systems <em>operational</em></div>
+      <div class="pd">Real-time status of all 21 KimiAxe services.<br>Auto-refreshed every 60 seconds.</div>
+    </div>
+    <div class="ob">
+      <div class="ob-dot"></div>
+      <div><div class="ob-title">All Systems Operational</div><div class="ob-sub">Last checked: <span id="lc">Just now</span></div></div>
+    </div>
+  </div>
+  <div class="urow">
+    <div class="uc"><div class="uc-v">99.9%</div><div class="uc-l">Overall Uptime</div></div>
+    <div class="uc"><div class="uc-v">0</div><div class="uc-l">Active Incidents</div></div>
+    <div class="uc"><div class="uc-v">12ms</div><div class="uc-l">Avg Response</div></div>
+    <div class="uc"><div class="uc-v">21</div><div class="uc-l">Services Live</div></div>
+  </div>
+
+  <div class="stitle">kimiaxe.com — Main Hub (6 services)</div>
+  <div class="scard">
+    <div class="scard-head"><div class="scard-title"><div class="dot dg"></div>KimiAxe Hub</div><div class="scard-dom">kimiaxe.com</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>kimiaxe.com — Main Website</div><div class="srow-lat">8ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>app.kimiaxe.com — Dashboard</div><div class="srow-lat">11ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>api.kimiaxe.com — API Gateway</div><div class="srow-lat">14ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>status.kimiaxe.com — This Page</div><div class="srow-lat">6ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>docs.kimiaxe.com — Documentation</div><div class="srow-lat">9ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>blog.kimiaxe.com — Blog</div><div class="srow-lat">7ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+  </div>
+
+  <div class="stitle">axesms.org — Bulk Messaging (4 services)</div>
+  <div class="scard">
+    <div class="scard-head"><div class="scard-title"><div class="dot dg"></div>AxeSMS</div><div class="scard-dom">axesms.org</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>axesms.org — Main Site</div><div class="srow-lat">9ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>api.axesms.org — SMS API</div><div class="srow-lat">18ms</div><div class="srow-up">99.8%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>panel.axesms.org — Reseller Panel</div><div class="srow-lat">12ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>docs.axesms.org — API Docs</div><div class="srow-lat">7ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+  </div>
+
+  <div class="stitle">axexvx.link — Link Shortener (4 services)</div>
+  <div class="scard">
+    <div class="scard-head"><div class="scard-title"><div class="dot dg"></div>AxeXVX</div><div class="scard-dom">axexvx.link</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>axexvx.link — Main Site</div><div class="srow-lat">7ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>cdn.axexvx.link — File CDN</div><div class="srow-lat">22ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>qr.axexvx.link — QR Generator</div><div class="srow-lat">10ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>stats.axexvx.link — Analytics</div><div class="srow-lat">15ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+  </div>
+
+  <div class="stitle">axeb2b.ai — AI Platform (4 services)</div>
+  <div class="scard">
+    <div class="scard-head"><div class="scard-title"><div class="dot dg"></div>AxeB2B AI</div><div class="scard-dom">axeb2b.ai</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>axeb2b.ai — Main Site</div><div class="srow-lat">10ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>studio.axeb2b.ai — Bot Builder</div><div class="srow-lat">28ms</div><div class="srow-up">99.8%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>bot.axeb2b.ai — Live Bot Endpoint</div><div class="srow-lat">16ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>labs.axeb2b.ai — Beta Features</div><div class="srow-lat">31ms</div><div class="srow-up">99.5%</div><div class="sbadge op">OPERATIONAL</div></div>
+  </div>
+
+  <div class="stitle">axeb2b.wallet — Payments & eSIM (4 services)</div>
+  <div class="scard">
+    <div class="scard-head"><div class="scard-title"><div class="dot dg"></div>AxeB2B Wallet</div><div class="scard-dom">axeb2b.wallet</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>axeb2b.wallet — Main Site</div><div class="srow-lat">9ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>pay.axeb2b.wallet — Payment Gateway</div><div class="srow-lat">20ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>kyc.axeb2b.wallet — KYC Verification</div><div class="srow-lat">24ms</div><div class="srow-up">99.8%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>market.axeb2b.wallet — Domain Market</div><div class="srow-lat">13ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+  </div>
+
+  <div class="stitle">axesocials.com — Social Media (4 services)</div>
+  <div class="scard">
+    <div class="scard-head"><div class="scard-title"><div class="dot dg"></div>AxeSocials</div><div class="scard-dom">axesocials.com</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>axesocials.com — Main Site</div><div class="srow-lat">8ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>dashboard.axesocials.com</div><div class="srow-lat">14ms</div><div class="srow-up">99.9%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>api.axesocials.com — Social API</div><div class="srow-lat">17ms</div><div class="srow-up">99.8%</div><div class="sbadge op">OPERATIONAL</div></div>
+    <div class="srow"><div class="srow-name"><div class="dot dg"></div>agency.axesocials.com — Agency</div><div class="srow-lat">11ms</div><div class="srow-up">100%</div><div class="sbadge op">OPERATIONAL</div></div>
+  </div>
+
+  <div class="stitle">Incident History — Last 30 Days</div>
+  <div class="inc-card">
+    <div style="text-align:center;padding:28px;color:var(--m);font-size:0.82rem">✓ No incidents in the last 30 days. All systems running perfectly!</div>
+  </div>
+
+  <div class="sub-card">
+    <div><h3>Get Status Alerts</h3><p>Instant email alerts for any downtime or incidents.</p></div>
+    <div class="sub-form">
+      <input class="sub-in" type="email" placeholder="your@email.com"/>
+      <button class="sub-btn" onclick="alert('Subscribed to status alerts!')">Subscribe →</button>
+    </div>
+  </div>
+</div>
+<footer><div class="fi">
+  <span class="fc">© 2025 KimiAxe · status.kimiaxe.com</span>
+  <div class="flinks">
+    <a href="index.html">Home</a><a href="docs.html">Docs</a><a href="contact.html">Contact</a>
+    <button class="rbtn" onclick="location.reload()">↻ Refresh</button>
+  </div>
+</div></footer>
+<script>setInterval(()=>{document.getElementById('lc').textContent=new Date().toLocaleTimeString()},60000)</script>
+</body>
+</html>

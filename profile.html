@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Profile & Settings — KimiAxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999;--sw:220px}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);border-right:1px solid var(--bd);background:var(--bg);z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--bd)}
+.logo{font-family:'Geist Mono',monospace;font-size:1rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.sb-user{padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.avatar{width:36px;height:36px;background:var(--bg3);border:1px solid var(--bd2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;font-family:'Geist Mono',monospace;flex-shrink:0}
+.uname{font-size:0.82rem;font-weight:600}
+.uemail{font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace}
+.sb-section{padding:10px 10px 4px}
+.sb-label{font-size:0.58rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;font-family:'Geist Mono',monospace;padding:0 8px;margin-bottom:3px}
+.sb-link{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;font-size:0.8rem;color:var(--m);cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-link:hover,.sb-link.active{background:var(--bg3);color:var(--t)}
+.sb-link .ic{width:18px;text-align:center}
+.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--bd)}
+.main{margin-left:var(--sw);min-height:100vh}
+.topbar{height:52px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-title{font-size:0.9rem;font-weight:700}
+.tb-r{display:flex;gap:8px}
+.pbtn{background:var(--t);color:#000;padding:7px 14px;border-radius:7px;font-weight:700;font-size:0.78rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.pbtn:hover{background:#e5e5e5}
+.obtn{background:transparent;color:var(--t);padding:7px 14px;border-radius:7px;font-size:0.78rem;border:1px solid var(--bd2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.content{padding:24px}
+.tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:20px}
+.tab{padding:10px 18px;font-size:0.8rem;color:var(--m);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab.active{color:var(--t);border-bottom-color:var(--t)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.panel{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
+.p-title{font-size:0.88rem;font-weight:700;margin-bottom:16px}
+.fg{margin-bottom:14px}
+.fl{font-size:0.65rem;color:var(--m2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:block;font-family:'Geist Mono',monospace}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:7px;padding:10px 13px;color:var(--t);font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--bd2)}
+.fi::placeholder{color:var(--m)}
+select.fi{cursor:pointer}
+.avatar-big{width:80px;height:80px;background:var(--bg3);border:2px solid var(--bd2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;font-family:'Geist Mono',monospace;cursor:pointer;position:relative;margin-bottom:12px}
+.avatar-edit{position:absolute;bottom:0;right:0;width:24px;height:24px;background:var(--t);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#000}
+.plan-card{background:var(--bg3);border:1px solid var(--bd2);border-radius:10px;padding:16px;margin-bottom:12px}
+.pc-name{font-size:0.85rem;font-weight:700;margin-bottom:4px}
+.pc-desc{font-size:0.75rem;color:var(--m)}
+.kyc-status{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.15);border-radius:8px;font-size:0.82rem;color:#eab308;margin-bottom:16px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bd)}
+.toggle-row:last-child{border-bottom:none}
+.tr-label{font-size:0.82rem}
+.tr-sub{font-size:0.72rem;color:var(--m)}
+.toggle{position:relative;width:36px;height:20px}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--bd);border-radius:100px;cursor:pointer;transition:.3s}
+.slider::before{content:'';position:absolute;width:14px;height:14px;left:2px;top:2px;background:var(--m);border-radius:50%;transition:.3s}
+.toggle input:checked+.slider{background:rgba(255,255,255,.1);border-color:var(--t)}
+.toggle input:checked+.slider::before{transform:translateX(16px);background:var(--t)}
+.api-key-row{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;margin-bottom:8px}
+.ak-key{flex:1;font-family:'Geist Mono',monospace;font-size:0.78rem;color:var(--m)}
+.ak-copy{font-size:0.7rem;padding:4px 10px;border:1px solid var(--bd2);border-radius:4px;cursor:pointer;background:transparent;color:var(--t);font-family:'Geist Mono',monospace}
+.ak-copy:hover{background:rgba(255,255,255,.04)}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><a href="dashboard.html" class="logo">kimi<span>axe</span></a></div>
+  <div class="sb-user">
+    <div class="avatar">AK</div>
+    <div><div class="uname">Axe Kumar</div><div class="uemail">axe@kimiaxe.com</div></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Account</div>
+    <div class="sb-link active"><span class="ic">👤</span> Profile</div>
+    <div class="sb-link"><span class="ic">🔒</span> Security</div>
+    <div class="sb-link"><span class="ic">🔔</span> Notifications</div>
+    <div class="sb-link"><span class="ic">🪪</span> KYC</div>
+    <div class="sb-link"><span class="ic">💳</span> Billing</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Developer</div>
+    <div class="sb-link"><span class="ic">🔑</span> API Keys</div>
+    <div class="sb-link"><span class="ic">🔗</span> Webhooks</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Team</div>
+    <div class="sb-link"><span class="ic">👥</span> Team Members</div>
+    <div class="sb-link"><span class="ic">🛡️</span> Permissions</div>
+  </div>
+  <div class="sb-bottom">
+    <a href="dashboard.html" class="sb-link"><span class="ic">←</span> Dashboard</a>
+    <a href="login.html" class="sb-link" style="color:#ef4444"><span class="ic">→</span> Sign Out</a>
+  </div>
+</div>
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><span>👤</span><div class="tb-title">Profile & Settings</div></div>
+    <div class="tb-r"><button class="pbtn" onclick="alert('Saved!')">Save Changes →</button></div>
+  </div>
+  <div class="content">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'profile')">Profile</div>
+      <div class="tab" onclick="switchTab(this,'security')">Security</div>
+      <div class="tab" onclick="switchTab(this,'notifications')">Notifications</div>
+      <div class="tab" onclick="switchTab(this,'api')">API Keys</div>
+      <div class="tab" onclick="switchTab(this,'billing')">Billing</div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="tab-profile">
+      <div class="grid2">
+        <div class="panel">
+          <div class="p-title">Personal Information</div>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+            <div class="avatar-big">AK<div class="avatar-edit">✏️</div></div>
+            <div>
+              <div style="font-size:0.88rem;font-weight:700;margin-bottom:4px">Axe Kumar</div>
+              <div style="font-size:0.72rem;color:var(--m);font-family:'Geist Mono',monospace">Member since Jan 2025</div>
+              <button class="obtn" style="font-size:0.72rem;padding:4px 12px;margin-top:8px">Change Photo</button>
+            </div>
+          </div>
+          <div class="grid2" style="margin-bottom:0">
+            <div class="fg"><label class="fl">First Name</label><input class="fi" value="Axe"/></div>
+            <div class="fg"><label class="fl">Last Name</label><input class="fi" value="Kumar"/></div>
+          </div>
+          <div class="fg"><label class="fl">Email</label><input class="fi" type="email" value="axe@kimiaxe.com"/></div>
+          <div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" placeholder="+91 98765 43210"/></div>
+          <div class="fg"><label class="fl">Country</label><select class="fi"><option selected>India</option><option>USA</option><option>UAE</option><option>UK</option></select></div>
+          <div class="fg"><label class="fl">Company (Optional)</label><input class="fi" placeholder="Your company name"/></div>
+          <button class="pbtn" style="padding:11px 24px">Save Profile →</button>
+        </div>
+        <div>
+          <div class="panel">
+            <div class="p-title">Current Plan</div>
+            <div class="plan-card">
+              <div class="pc-name">Free Plan</div>
+              <div class="pc-desc">Basic access to all 6 platforms</div>
+            </div>
+            <a href="pricing.html"><button class="pbtn" style="width:100%;padding:11px;margin-bottom:8px">Upgrade Plan →</button></a>
+          </div>
+          <div class="panel">
+            <div class="p-title">KYC Verification</div>
+            <div class="kyc-status">⚠️ KYC Pending — Verify to unlock full features</div>
+            <button class="obtn" style="width:100%;padding:11px">Complete KYC →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div id="tab-security" style="display:none">
+      <div class="grid2">
+        <div class="panel">
+          <div class="p-title">Change Password</div>
+          <div class="fg"><label class="fl">Current Password</label><input class="fi" type="password" placeholder="••••••••"/></div>
+          <div class="fg"><label class="fl">New Password</label><input class="fi" type="password" placeholder="••••••••"/></div>
+          <div class="fg"><label class="fl">Confirm New Password</label><input class="fi" type="password" placeholder="••••••••"/></div>
+          <button class="pbtn" style="padding:11px 24px">Update Password →</button>
+        </div>
+        <div class="panel">
+          <div class="p-title">Two-Factor Authentication</div>
+          <div class="toggle-row">
+            <div><div class="tr-label">Email 2FA</div><div class="tr-sub">OTP on every login</div></div>
+            <label class="toggle"><input type="checkbox"/><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="tr-label">Telegram 2FA</div><div class="tr-sub">Confirm via @KimiaxeBot</div></div>
+            <label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="tr-label">Login Alerts</div><div class="tr-sub">Alert on new device login</div></div>
+            <label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="tab-notifications" style="display:none">
+      <div class="panel">
+        <div class="p-title">Notification Preferences</div>
+        <div class="toggle-row"><div><div class="tr-label">SMS Campaign Reports</div><div class="tr-sub">Get notified when campaigns complete</div></div><label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tr-label">Wallet Low Balance Alert</div><div class="tr-sub">Alert when balance drops below ₹100</div></div><label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tr-label">AI Auto-Post Notifications</div><div class="tr-sub">When AI posts on social media</div></div><label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tr-label">New Follower Alerts</div><div class="tr-sub">Social media new followers</div></div><label class="toggle"><input type="checkbox"/><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tr-label">Platform Updates</div><div class="tr-sub">New features and announcements</div></div><label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tr-label">Marketing Emails</div><div class="tr-sub">Tips, tutorials and offers</div></div><label class="toggle"><input type="checkbox"/><span class="slider"></span></label></div>
+      </div>
+    </div>
+
+    <!-- API KEYS -->
+    <div id="tab-api" style="display:none">
+      <div class="panel">
+        <div class="p-title">API Keys <button class="pbtn" style="font-size:0.72rem;padding:5px 12px">+ Generate New Key</button></div>
+        <div class="api-key-row">
+          <div><div style="font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace;margin-bottom:3px">PRODUCTION KEY</div><div class="ak-key">ka_live_••••••••••••••••••••••••</div></div>
+          <button class="ak-copy" onclick="alert('Key revealed!')">👁 Show</button>
+          <button class="ak-copy" onclick="alert('Copied!')">📋 Copy</button>
+          <button class="ak-copy" style="color:#f87171;border-color:rgba(239,68,68,0.3)">🔄 Rotate</button>
+        </div>
+        <div class="api-key-row">
+          <div><div style="font-size:0.7rem;color:var(--m);font-family:'Geist Mono',monospace;margin-bottom:3px">TEST KEY</div><div class="ak-key">ka_test_••••••••••••••••••••••••</div></div>
+          <button class="ak-copy">👁 Show</button>
+          <button class="ak-copy" onclick="alert('Copied!')">📋 Copy</button>
+          <button class="ak-copy" style="color:#f87171;border-color:rgba(239,68,68,0.3)">🔄 Rotate</button>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-top:12px">
+          <div style="font-size:0.72rem;color:var(--m);margin-bottom:8px;font-family:'Geist Mono',monospace">Example Usage:</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:0.75rem;color:#22c55e;line-height:1.7">curl -H "Authorization: Bearer YOUR_API_KEY" \<br>&nbsp;&nbsp;https://api.kimiaxe.com/v1/sms/send</div>
+        </div>
+        <a href="docs.html" style="font-size:0.78rem;color:var(--m);display:inline-block;margin-top:10px;border-bottom:1px solid var(--bd2);padding-bottom:2px">View Full API Docs →</a>
+      </div>
+    </div>
+
+    <!-- BILLING -->
+    <div id="tab-billing" style="display:none">
+      <div class="grid2">
+        <div class="panel">
+          <div class="p-title">Billing Overview</div>
+          <div style="text-align:center;padding:24px;color:var(--m);font-size:0.82rem">No billing history yet. You're on the free plan!</div>
+          <a href="pricing.html"><button class="pbtn" style="width:100%;padding:11px">View Plans →</button></a>
+        </div>
+        <div class="panel">
+          <div class="p-title">Wallet Balance</div>
+          <div style="text-align:center;padding:16px 0">
+            <div style="font-family:'Instrument Serif',serif;font-size:2.5rem;letter-spacing:-1px;margin-bottom:4px">₹0.00</div>
+            <div style="font-size:0.78rem;color:var(--m);margin-bottom:20px">Available balance</div>
+            <a href="wallet-dashboard.html"><button class="pbtn" style="padding:10px 24px">+ Add Money</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function switchTab(el,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  ['profile','security','notifications','api','billing'].forEach(t=>{const d=document.getElementById('tab-'+t);if(d)d.style.display=t===id?'block':'none'})
+}
+</script>
+</body>
+</html>

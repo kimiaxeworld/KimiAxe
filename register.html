@@ -1,129 +1,56 @@
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Sign Up Free — KimiAxe</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Register — KimiAxe</title><link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999}
-body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
-.gbg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--bd);position:relative;z-index:1}
-.logo{font-family:'Geist Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--t)}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.gbg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--bd);background:rgba(0,0,0,0.92);backdrop-filter:blur(20px);height:56px;display:flex;align-items:center}
+.ni{max-width:1200px;margin:0 auto;padding:0 24px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Geist Mono',monospace;font-size:1.05rem;font-weight:700;color:var(--t)}
 .logo span{color:var(--m)}
-.navr{font-size:0.82rem;color:var(--m)}
-.navr a{color:var(--t);font-weight:600;text-decoration:none;margin-left:6px}
-main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;position:relative;z-index:1}
-.box{width:100%;max-width:460px}
-.bh{text-align:center;margin-bottom:32px}
-.bicon{width:52px;height:52px;background:var(--t);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:1rem;font-weight:700;color:#000;margin:0 auto 18px}
-.bt{font-family:'Instrument Serif',serif;font-size:1.9rem;letter-spacing:-1px;margin-bottom:6px}
-.bt em{font-style:italic;color:var(--m)}
-.bs{font-size:0.83rem;color:var(--m)}
-.free-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);padding:5px 14px;border-radius:100px;font-size:0.7rem;color:#22c55e;font-family:'Geist Mono',monospace;letter-spacing:2px;margin-top:10px}
-.dot-g{width:6px;height:6px;background:#22c55e;border-radius:50%;box-shadow:0 0 8px #22c55e}
-.sbtns{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
-.sbtn{display:flex;align-items:center;justify-content:center;gap:10px;padding:11px;border-radius:8px;border:1px solid var(--bd);background:var(--bg2);font-size:0.83rem;font-weight:500;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;color:var(--t);width:100%}
-.sbtn:hover{border-color:var(--bd2);background:var(--bg3)}
-.dv{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--bd)}
-.dv span{font-size:0.68rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;font-family:'Geist Mono',monospace}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fg{margin-bottom:14px}
+.nl{display:flex;align-items:center;gap:2px}
+.nl a{color:var(--m);font-size:0.8rem;padding:6px 11px;border-radius:6px;transition:all 0.15s}
+.nl a:hover,.nl a.on{color:var(--t);background:var(--bg3)}
+.nr{display:flex;align-items:center;gap:8px}
+.bw{background:var(--t);color:#000;padding:7px 16px;border-radius:6px;font-weight:600;font-size:0.8rem;transition:all 0.15s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.bw:hover{background:#e5e5e5}
+.bo{border:1px solid var(--bd2);color:var(--t);padding:7px 16px;border-radius:6px;font-size:0.8rem;transition:all 0.15s;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif}
+.bo:hover{border-color:#555}
+.wrap{max-width:1200px;margin:0 auto;padding:80px 24px 100px;position:relative;z-index:1}
+.ph{padding:56px 0 48px;border-bottom:1px solid var(--bd);margin-bottom:56px}
+.pl{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.pt{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,3.5rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px}
+.pt em{font-style:italic;color:var(--m)}
+.pd{font-size:0.92rem;color:var(--m);max-width:480px;line-height:1.75}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:24px;transition:border-color 0.2s}
+.card:hover{border-color:var(--bd2)}
+.ci{font-size:1.4rem;margin-bottom:12px}
+.ct{font-size:0.92rem;font-weight:700;margin-bottom:6px}
+.cd{font-size:0.8rem;color:var(--m);line-height:1.7;margin-bottom:14px}
+.cl{font-size:0.75rem;color:var(--t);font-family:'Geist Mono',monospace;border-bottom:1px solid var(--bd2);padding-bottom:2px;display:inline-block}
+.cl:hover{border-color:var(--t)}
+.sec{margin-bottom:52px}
+.sl{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.st{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,2.8vw,2.2rem);letter-spacing:-0.8px;margin-bottom:28px}
+.st em{font-style:italic;color:var(--m)}
+.fg{margin-bottom:16px}
 .fl{font-size:0.68rem;color:var(--m2);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;display:block;font-family:'Geist Mono',monospace}
 .fi{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:12px 15px;color:var(--t);font-size:0.87rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.15s}
 .fi:focus{border-color:var(--bd2)}
 .fi::placeholder{color:var(--m)}
+textarea.fi{resize:vertical;min-height:120px}
 select.fi{cursor:pointer}
-.terms{font-size:0.75rem;color:var(--m);margin-bottom:16px;line-height:1.6}
-.terms a{color:var(--t);text-decoration:underline}
-.pbtn{width:100%;background:var(--t);color:#000;padding:13px;border-radius:8px;font-weight:700;font-size:0.9rem;border:none;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;margin-bottom:14px}
-.pbtn:hover{background:#e5e5e5;transform:translateY(-1px)}
-.sl{text-align:center;font-size:0.8rem;color:var(--m)}
-.sl a{color:var(--t);font-weight:600;text-decoration:none;margin-left:4px}
-.perks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:28px;padding-top:28px;border-top:1px solid var(--bd)}
-.perk{display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--m)}
-.perk::before{content:'✓';color:var(--t);font-weight:700}
-.err{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:11px 14px;font-size:0.8rem;color:#f87171;margin-bottom:14px;display:none}
-footer{text-align:center;padding:18px;border-top:1px solid var(--bd);position:relative;z-index:1}
-footer a{color:var(--m);text-decoration:none;margin:0 8px;font-size:0.72rem}
-footer a:hover{color:var(--t)}
-</style>
-</head>
-<body>
-<div class="gbg"></div>
-<nav>
-  <a href="index.html" class="logo">kimi<span>axe</span></a>
-  <div class="navr">Already have an account?<a href="login.html">Sign In →</a></div>
-</nav>
-<main>
-  <div class="box">
-    <div class="bh">
-      <div class="bicon">KA</div>
-      <div class="bt">Start for <em>free</em></div>
-      <div class="bs">One account. 6 powerful platforms.</div>
-      <div class="free-badge"><div class="dot-g"></div>NO CREDIT CARD REQUIRED</div>
-    </div>
-    <div class="sbtns">
-      <button class="sbtn" onclick="window.open('https://t.me/KimiaxeBot','_blank')">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="#229ED9"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/></svg>
-        Sign up with Telegram
-      </button>
-      <button class="sbtn">
-        <svg width="17" height="17" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 002.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 01-7.18-2.54H1.83v2.07A8 8 0 008.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 010-3.04V5.41H1.83a8 8 0 000 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 001.83 5.4L4.5 7.49a4.77 4.77 0 014.48-3.3z"/></svg>
-        Sign up with Google
-      </button>
-    </div>
-    <div class="dv"><span>or with email</span></div>
-    <div class="err" id="err">Please fill all required fields.</div>
-    <div class="row2">
-      <div class="fg"><label class="fl">First Name</label><input class="fi" type="text" id="fname" placeholder="Rahul"/></div>
-      <div class="fg"><label class="fl">Last Name</label><input class="fi" type="text" id="lname" placeholder="Kumar"/></div>
-    </div>
-    <div class="fg"><label class="fl">Email Address</label><input class="fi" type="email" id="email" placeholder="you@example.com"/></div>
-    <div class="fg"><label class="fl">Phone Number</label><input class="fi" type="tel" id="phone" placeholder="+91 98765 43210"/></div>
-    <div class="fg">
-      <label class="fl">Country</label>
-      <select class="fi" id="country">
-        <option value="">Select country...</option>
-        <option selected>India</option>
-        <option>United States</option>
-        <option>United Kingdom</option>
-        <option>UAE</option>
-        <option>Singapore</option>
-        <option>Australia</option>
-        <option>Canada</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="fg"><label class="fl">Password</label><input class="fi" type="password" id="pass" placeholder="Min 8 characters"/></div>
-    <div class="fg"><label class="fl">Confirm Password</label><input class="fi" type="password" id="pass2" placeholder="Repeat password"/></div>
-    <div class="terms">By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. We'll send you product updates via email.</div>
-    <button class="pbtn" id="regBtn" onclick="doRegister()">Create Free Account →</button>
-    <div class="sl">Already have an account?<a href="login.html">Sign in</a></div>
-    <div class="perks">
-      <div class="perk">Free forever plan</div>
-      <div class="perk">No credit card needed</div>
-      <div class="perk">6 platforms access</div>
-      <div class="perk">Setup in 2 minutes</div>
-      <div class="perk">AI-powered tools</div>
-      <div class="perk">190+ countries</div>
-    </div>
-  </div>
-</main>
-<footer>
-  <a href="index.html">Home</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="#">Privacy</a><a href="#">Terms</a>
-</footer>
-<script>
-function doRegister(){
-  const f=document.getElementById('fname').value,e=document.getElementById('email').value,p=document.getElementById('pass').value,p2=document.getElementById('pass2').value;
-  if(!f||!e||!p){document.getElementById('err').textContent='Please fill all required fields.';document.getElementById('err').style.display='block';return}
-  if(p!==p2){document.getElementById('err').textContent='Passwords do not match.';document.getElementById('err').style.display='block';return}
-  const b=document.getElementById('regBtn');b.textContent='Creating account...';b.disabled=true;
-  setTimeout(()=>{window.location.href='dashboard.html'},1500)
-}
-</script>
-</body>
-</html>
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.divl{display:flex;align-items:center;gap:14px;margin:44px 0}
+.divl span{font-family:'Geist Mono',monospace;font-size:0.62rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.divl::before,.divl::after{content:'';flex:1;height:1px;background:var(--bd)}
+footer{border-top:1px solid var(--bd);padding:32px 24px;margin-top:80px;position:relative;z-index:1}
+.fi2{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.fc{font-size:0.72rem;color:var(--m)}
+.flinks{display:flex;gap:18px;flex-wrap:wrap}
+.flinks a{font-size:0.72rem;color:var(--m)}
+.flinks a:hover{color:var(--t)}
+@media(max-width:768px){.g2,.g3,.g4,.fr2{grid-template-columns:1fr}.nl{display:none}}
+body{display:flex;flex-direction:column}main{flex:1}</style></head><body><div class="gbg"></div><nav><div class="ni"><a href="index.html" class="logo">kimi<span>axe</span></a><div style="font-size:.82rem;color:#666">Already have an account? <a href="login.html" style="color:#fff;font-weight:600">Sign In</a></div></div></nav><main style="display:flex;align-items:center;justify-content:center;padding:80px 24px 40px;position:relative;z-index:1"><div style="width:100%;max-width:440px"><div style="text-align:center;margin-bottom:32px"><div style="width:52px;height:52px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:Geist Mono,monospace;font-size:1rem;font-weight:700;color:#000;margin:0 auto 18px">KA</div><div style="font-family:Instrument Serif,serif;font-size:1.9rem;letter-spacing:-1px;margin-bottom:6px">Create your <em style="color:#666">account</em></div><div style="font-size:.83rem;color:#666">Free forever. No credit card required.</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px"><div><label class="fl">First Name</label><input class="fi" placeholder="Rahul"/></div><div><label class="fl">Last Name</label><input class="fi" placeholder="Kumar"/></div></div><div style="margin-bottom:14px"><label class="fl">Email Address</label><input class="fi" type="email" id="em" placeholder="you@example.com"/></div><div style="margin-bottom:14px"><label class="fl">Phone Number</label><input class="fi" type="tel" placeholder="+91 98765 43210"/></div><div style="margin-bottom:14px"><label class="fl">Password</label><input class="fi" type="password" id="pw" placeholder="Min 8 characters"/></div><div style="margin-bottom:20px"><label class="fl">Confirm Password</label><input class="fi" type="password" placeholder="Repeat password"/></div><label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;cursor:pointer;font-size:.8rem;color:#666"><input type="checkbox" style="accent-color:#fff;margin-top:2px"/>I agree to the <a href="#" style="color:#fff">Terms of Service</a> and <a href="#" style="color:#fff">Privacy Policy</a></label><button onclick="doReg()" id="rb" style="width:100%;background:#fff;color:#000;padding:12px;border-radius:8px;font-weight:700;font-size:.88rem;border:none;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:14px">Create Free Account →</button><div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div style="flex:1;height:1px;background:#222"></div><span style="font-size:.68rem;color:#666;letter-spacing:2px;text-transform:uppercase;font-family:Geist Mono,monospace">or</span><div style="flex:1;height:1px;background:#222"></div></div><button onclick="window.open('https://t.me/KimiaxeBot','_blank')" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:11px;border-radius:8px;border:1px solid #222;background:#0a0a0a;font-size:.83rem;cursor:pointer;color:#fff;font-family:DM Sans,sans-serif"><svg width="17" height="17" viewBox="0 0 24 24" fill="#229ED9"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z"/></svg>Sign up with Telegram</button></div></main><script>function doReg(){var b=document.getElementById("rb");b.textContent="Creating account...";b.disabled=true;setTimeout(function(){window.location.href="dashboard.html"},1400);}</script><footer><div class="fi2"><span class="fc">© 2025 KimiAxe</span><div class="flinks"><a href="index.html">Home</a><a href="about.html">About</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a><a href="contact.html">Contact</a><a href="support.html">Support</a><a href="status.html">Status</a><a href="#">Privacy</a><a href="#">Terms</a></div></div></footer></body></html>

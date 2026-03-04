@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>kyc-wallet — KimiAxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--sw:220px}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);border-right:1px solid var(--bd);background:var(--bg);z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--bd)}
+.logo{font-family:'Geist Mono',monospace;font-size:1rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.sb-section{padding:10px 10px 4px}
+.sb-label{font-size:0.58rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;font-family:'Geist Mono',monospace;padding:0 8px;margin-bottom:3px}
+.sb-link{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;font-size:0.8rem;color:var(--m);cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-link:hover,.sb-link.active{background:var(--bg3);color:var(--t)}
+.sb-link .ic{width:18px;text-align:center}
+.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--bd)}
+.main{margin-left:var(--sw);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.center-box{text-align:center;max-width:480px;padding:40px}
+.cb-icon{font-size:3rem;margin-bottom:20px}
+.cb-title{font-family:'Instrument Serif',serif;font-size:2.5rem;letter-spacing:-1px;margin-bottom:10px}
+.cb-title em{font-style:italic;color:var(--m)}
+.cb-sub{font-size:0.9rem;color:var(--m);margin-bottom:28px;line-height:1.6}
+.cb-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.2);padding:8px 18px;border-radius:100px;font-size:0.72rem;color:#eab308;font-family:'Geist Mono',monospace;letter-spacing:2px;margin-bottom:24px}
+.cb-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pbtn{background:var(--t);color:#000;padding:11px 22px;border-radius:8px;font-weight:700;font-size:0.85rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.obtn{background:transparent;color:var(--t);padding:11px 22px;border-radius:8px;font-size:0.85rem;border:1px solid var(--bd2);cursor:pointer;font-family:'DM Sans',sans-serif}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><a href="dashboard.html" class="logo">kimi<span>axe</span></a></div>
+  <div class="sb-section">
+    <div class="sb-label">Navigation</div>
+    <a href="dashboard.html" class="sb-link"><span class="ic">⊞</span> Main Dashboard</a>
+    <a href="sms-dashboard.html" class="sb-link"><span class="ic">📱</span> AxeSMS</a>
+    <a href="xvx-dashboard.html" class="sb-link"><span class="ic">🔗</span> AxeXVX</a>
+    <a href="ai-dashboard.html" class="sb-link"><span class="ic">🤖</span> AxeB2B AI</a>
+    <a href="wallet-dashboard.html" class="sb-link"><span class="ic">💰</span> Wallet</a>
+    <a href="socials-dashboard.html" class="sb-link"><span class="ic">📣</span> Socials</a>
+  </div>
+  <div class="sb-bottom"><a href="dashboard.html" class="sb-link"><span class="ic">←</span> Back</a></div>
+</div>
+<div class="main">
+  <div class="center-box">
+    <div class="cb-icon">🚧</div>
+    <div class="cb-title">Coming <em>soon</em></div>
+    <div class="cb-sub">This section is under development. We're building something amazing for <strong>kyc-wallet</strong> — check back soon!</div>
+    <div class="cb-badge">⚡ IN DEVELOPMENT</div>
+    <div class="cb-btns">
+      <a href="dashboard.html"><button class="pbtn">← Back to Dashboard</button></a>
+      <a href="contact.html"><button class="obtn">Get Notified</button></a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

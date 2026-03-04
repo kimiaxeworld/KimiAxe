@@ -3,235 +3,346 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AxeSocials — Social Media Management | KimiAxe</title>
-<meta name="description" content="Full social media management — schedule, publish, analyze across all platforms. AxeSocials — part of the KimiAxe ecosystem.">
+<title>AxeSocials — Social Media Management Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/axesocials.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--border:#222;--border2:#333;--text:#fff;--muted:#666;--muted2:#999}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.9);backdrop-filter:blur(20px)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Geist Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--text);text-decoration:none}
+.logo span{color:var(--muted)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-back{color:var(--muted);text-decoration:none;font-size:0.8rem;padding:6px 12px;border-radius:6px;border:1px solid var(--border);transition:all 0.15s}
+.nav-back:hover{color:var(--text)}
+.btn-w{background:var(--text);color:var(--bg);padding:7px 16px;border-radius:6px;font-weight:600;font-size:0.82rem;text-decoration:none}
+.btn-w:hover{background:#e5e5e5}
+.btn-o{background:transparent;color:var(--text);padding:7px 16px;border-radius:6px;font-size:0.82rem;text-decoration:none;border:1px solid var(--border2)}
+.btn-o:hover{border-color:#555}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 80px;text-align:center;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.3;mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border2);padding:5px 14px;border-radius:100px;font-size:0.72rem;color:var(--muted2);margin-bottom:28px;font-family:'Geist Mono',monospace}
+.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(3rem,8vw,6.5rem);line-height:1.05;letter-spacing:-2px;max-width:800px;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--muted)}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:480px;line-height:1.7;margin-bottom:40px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-lg-w{background:var(--text);color:var(--bg);padding:13px 32px;border-radius:8px;font-weight:600;font-size:0.95rem;text-decoration:none}
+.btn-lg-w:hover{background:#e5e5e5}
+.btn-lg-o{border:1px solid var(--border2);color:var(--text);padding:13px 32px;border-radius:8px;font-size:0.95rem;text-decoration:none}
+.btn-lg-o:hover{border-color:#555}
+
+/* PLATFORM ICONS ROW */
+.platforms-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.pr-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:0.8rem;display:flex;align-items:center;gap:6px;color:var(--muted2)}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat{padding:28px 24px;border-right:1px solid var(--border);text-align:center}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px}
+.stat-l{font-size:0.7rem;color:var(--muted);margin-top:4px}
+
+.section{padding:80px 24px;max-width:1200px;margin:0 auto}
+.sl{font-family:'Geist Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.st{font-family:'Instrument Serif',serif;font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-1px;margin-bottom:48px}
+.st em{font-style:italic;color:var(--muted)}
+
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.feat-card{background:var(--bg);padding:28px;transition:background 0.2s}
+.feat-card:hover{background:var(--bg3)}
+.feat-icon{font-size:1.5rem;margin-bottom:14px}
+.feat-title{font-size:0.9rem;font-weight:600;margin-bottom:8px}
+.feat-desc{font-size:0.78rem;color:var(--muted);line-height:1.6}
+
+/* CALENDAR PREVIEW */
+.calendar-preview{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:48px}
+.cal-header{background:var(--bg3);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.cal-title{font-size:0.85rem;font-weight:600}
+.cal-btn{background:var(--bg);border:1px solid var(--border);color:var(--muted2);padding:5px 12px;border-radius:6px;font-size:0.72rem;cursor:pointer}
+.cal-grid{padding:20px;display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 6px;min-height:64px;font-size:0.65rem;color:var(--muted)}
+.cal-day.has-post{border-color:var(--border2)}
+.cal-post{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:3px 5px;font-size:0.6rem;color:var(--muted2);margin-top:4px;white-space:nowrap;overflow:hidden}
+
+/* INBOX PREVIEW */
+.inbox-preview{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:24px}
+.inbox-header{background:var(--bg3);border-bottom:1px solid var(--border);padding:14px 20px;font-size:0.85rem;font-weight:600;display:flex;align-items:center;justify-content:space-between}
+.inbox-badge{background:var(--text);color:var(--bg);font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:10px}
+.inbox-item{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;transition:background 0.15s}
+.inbox-item:hover{background:var(--bg3)}
+.inbox-item:last-child{border-bottom:none}
+.inbox-avatar{width:36px;height:36px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;border:1px solid var(--border2)}
+.inbox-content{flex:1}
+.inbox-name{font-size:0.82rem;font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.inbox-platform{font-size:0.65rem;color:var(--muted);font-family:'Geist Mono',monospace}
+.inbox-msg{font-size:0.75rem;color:var(--muted2)}
+.inbox-time{font-size:0.65rem;color:var(--muted);flex-shrink:0}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
+.price-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;transition:border-color 0.2s}
+.price-card:hover{border-color:var(--border2)}
+.price-card.featured{border-color:#fff;background:var(--bg3)}
+.price-badge{font-size:0.65rem;background:var(--text);color:var(--bg);padding:3px 8px;border-radius:4px;font-weight:700;letter-spacing:1px;margin-bottom:12px;display:inline-block}
+.price-name{font-size:0.78rem;font-weight:600;color:var(--muted2);margin-bottom:6px;font-family:'Geist Mono',monospace;letter-spacing:1px;text-transform:uppercase}
+.price-amount{font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px;margin-bottom:2px}
+.price-period{font-size:0.7rem;color:var(--muted);margin-bottom:16px}
+.price-btn{display:block;text-align:center;padding:9px;border-radius:7px;font-size:0.82rem;font-weight:600;text-decoration:none;margin-bottom:16px;transition:all 0.15s}
+.pbo{border:1px solid var(--border2);color:var(--text)}.pbo:hover{border-color:#555}
+.pbs{background:var(--text);color:var(--bg)}.pbs:hover{background:#e5e5e5}
+.price-features{list-style:none}
+.price-features li{font-size:0.74rem;color:var(--muted2);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.price-features li:last-child{border-bottom:none}
+.check{color:#22c55e;font-size:0.7rem}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;max-width:680px;width:100%;max-height:80vh;overflow-y:auto}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2)}
+.modal-title{font-size:0.9rem;font-weight:600;font-family:'Geist Mono',monospace}
+.modal-close{background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--text)}
+.modal-body{padding:24px;font-size:0.83rem;color:var(--muted2);line-height:1.8}
+.modal-body h3{color:var(--text);font-size:0.88rem;margin:18px 0 6px}
+.modal-body h3:first-child{margin-top:0}
+footer{border-top:1px solid var(--border);padding:36px 24px}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap}
+.footer-links a{font-size:0.75rem;color:var(--muted);text-decoration:none}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{font-size:0.75rem;color:var(--muted)}
+@media(max-width:768px){.features-grid,.pricing-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.cal-grid{grid-template-columns:repeat(4,1fr)}}
+</style>
 </head>
 <body>
-
-<div class="announce">📣 AxeSocials — Part of the <a href="index.html">KimiAxe Ecosystem</a> · axesocials.com</div>
-
 <nav>
   <div class="nav-inner">
-    <a href="index.html" class="logo">kimi<span>axe</span></a>
-    <div class="nav-links">
-      <a href="index.html#platforms" class="nav-hide">All Platforms</a>
-      <a href="#features" class="nav-hide">Features</a>
-      <a href="#pricing" class="nav-hide">Pricing</a>
-      <a href="#" class="btn-outline" style="padding:6px 14px;font-size:0.8rem">Login</a>
-      <a href="#" class="btn-white" style="padding:6px 14px;font-size:0.8rem">Get Started</a>
+    <a href="#" class="logo">Axe<span>Socials</span></a>
+    <div class="nav-right">
+      <a href="kimiaxe.html" class="nav-back">← kimiaxe.com</a>
+      <a href="#" class="btn-o">Login</a>
+      <a href="#" class="btn-w">Start Free 14 Days</a>
     </div>
   </div>
 </nav>
 
-<section class="platform-hero">
+<section class="hero">
   <div class="hero-grid"></div>
-  <div class="hero-badge"><span class="badge-dot"></span> axesocials.com · Social Media Management</div>
+  <div class="hero-badge">📣 axesocials.com</div>
   <h1>Manage All Socials<br><em>From One Place</em></h1>
-  <p>Schedule, publish, analyze, and engage across Facebook, Instagram, Twitter, LinkedIn, YouTube & more — all from one powerful dashboard.</p>
-  <div class="hero-actions" style="animation:fadeUp 0.6s 0.3s ease both;opacity:0">
-    <a href="#" class="btn-white">Start Managing Socials</a>
-    <a href="#features" class="btn-outline">See Features</a>
+  <p class="hero-sub">Schedule, publish, analyze & engage across every social platform. Built for agencies, brands & businesses.</p>
+  <div class="platforms-row">
+    <div class="pr-item">📘 Facebook</div>
+    <div class="pr-item">📸 Instagram</div>
+    <div class="pr-item">🐦 Twitter/X</div>
+    <div class="pr-item">💼 LinkedIn</div>
+    <div class="pr-item">✈️ Telegram</div>
+    <div class="pr-item">▶️ YouTube</div>
+    <div class="pr-item">🎵 TikTok</div>
+    <div class="pr-item">📌 Pinterest</div>
+    <div class="pr-item">🧵 Threads</div>
+  </div>
+  <div class="hero-actions">
+    <a href="#" class="btn-lg-w">Start Free Trial</a>
+    <a href="#features" class="btn-lg-o">See Features</a>
   </div>
 </section>
 
-<div class="stats-bar">
-  <div class="stats-inner">
-    <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Social Platforms</div></div>
-    <div class="stat-item"><div class="stat-num">1M+</div><div class="stat-label">Posts Scheduled</div></div>
-    <div class="stat-item"><div class="stat-num">5K+</div><div class="stat-label">Agencies Using</div></div>
-    <div class="stat-item"><div class="stat-num">40%</div><div class="stat-label">Time Saved</div></div>
-  </div>
+<div class="stats-row">
+  <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Platforms</div></div>
+  <div class="stat"><div class="stat-n">1M+</div><div class="stat-l">Posts Scheduled</div></div>
+  <div class="stat"><div class="stat-n">50K+</div><div class="stat-l">Active Accounts</div></div>
+  <div class="stat"><div class="stat-n">3x</div><div class="stat-l">Avg Engagement Boost</div></div>
 </div>
 
-<!-- FEATURES -->
-<div id="features" class="features-section">
-  <div class="features-inner">
-    <div class="section-label">What You Get</div>
-    <div class="section-title">Social media <em>superpowers</em></div>
-    <div class="features-grid">
-      <div class="feature-item"><div class="fi-icon">📅</div><div class="fi-title">Smart Scheduler</div><div class="fi-desc">Schedule posts across all platforms with AI-powered optimal timing suggestions for maximum reach.</div></div>
-      <div class="feature-item"><div class="fi-icon">📊</div><div class="fi-title">Unified Analytics</div><div class="fi-desc">All your social metrics in one dashboard. Follower growth, engagement, reach, and ROI tracking.</div></div>
-      <div class="feature-item"><div class="fi-icon">💬</div><div class="fi-title">Unified Inbox</div><div class="fi-desc">Manage all comments, DMs, and mentions from every platform in one inbox. Never miss a message.</div></div>
-      <div class="feature-item"><div class="fi-icon">🎨</div><div class="fi-title">Content Studio</div><div class="fi-desc">Built-in image editor, video trimmer, and Canva integration. Create stunning content without leaving the app.</div></div>
-      <div class="feature-item"><div class="fi-icon">👥</div><div class="fi-title">Team Collaboration</div><div class="fi-desc">Assign roles, approval workflows, and content calendars for your entire social media team.</div></div>
-      <div class="feature-item"><div class="fi-icon">🏪</div><div class="fi-title">Agency White Label</div><div class="fi-desc">Manage unlimited client accounts. White label the dashboard with your agency branding.</div></div>
-      <div class="feature-item"><div class="fi-icon">🤖</div><div class="fi-title">AI Caption Writer</div><div class="fi-desc">Generate platform-optimized captions, hashtags, and CTAs with AI. Powered by GPT-4.</div></div>
-      <div class="feature-item"><div class="fi-icon">📈</div><div class="fi-title">Competitor Analysis</div><div class="fi-desc">Track competitor performance, benchmark your metrics, and identify growth opportunities.</div></div>
+<div id="features" class="section">
+  <div class="sl">Features</div>
+  <div class="st">Everything social,<br><em>simplified</em></div>
+  <div class="features-grid">
+    <div class="feat-card"><div class="feat-icon">📅</div><div class="feat-title">Smart Scheduler</div><div class="feat-desc">Drag & drop calendar. AI picks best posting times. Bulk schedule months of content in minutes.</div></div>
+    <div class="feat-card"><div class="feat-icon">✍️</div><div class="feat-title">AI Content Creator</div><div class="feat-desc">Write captions, generate images, create stories & reels. Full Canva-like editor built in.</div></div>
+    <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Deep Analytics</div><div class="feat-desc">Reach, engagement, follower growth, best posts, hashtag performance. Auto PDF reports.</div></div>
+    <div class="feat-card"><div class="feat-icon">💬</div><div class="feat-title">Unified Inbox</div><div class="feat-desc">All DMs, comments & mentions from every platform in one inbox. Team assignments & labels.</div></div>
+    <div class="feat-card"><div class="feat-icon">🔄</div><div class="feat-title">Auto Recycling</div><div class="feat-desc">Automatically repost your best evergreen content. Set schedules and let it run forever.</div></div>
+    <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Campaign Manager</div><div class="feat-desc">Create and track campaigns with goals, hashtags, UTM links & conversion tracking.</div></div>
+    <div class="feat-card"><div class="feat-icon">👥</div><div class="feat-title">Agency Tools</div><div class="feat-desc">Manage unlimited clients. White label reports, client portal, team roles & approvals.</div></div>
+    <div class="feat-card"><div class="feat-icon">🤖</div><div class="feat-title">Auto Sentiment Reply</div><div class="feat-desc">AI detects comment sentiment and auto-replies positively. Negative comments flagged for review.</div></div>
+    <div class="feat-card"><div class="feat-icon">📡</div><div class="feat-title">Website Auto-Post</div><div class="feat-desc">Connect your websites — AI scans for new content and auto-posts updates to all platforms.</div></div>
+  </div>
+
+  <div class="calendar-preview">
+    <div class="cal-header">
+      <div class="cal-title">Content Calendar — February 2025</div>
+      <button class="cal-btn">+ New Post</button>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-day" style="background:transparent;border:none;font-size:0.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center">MON</div>
+      <div class="cal-day" style="background:transparent;border:none;font-size:0.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center">TUE</div>
+      <div class="cal-day" style="background:transparent;border:none;font-size:0.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center">WED</div>
+      <div class="cal-day" style="background:transparent;border:none;font-size:0.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center">THU</div>
+      <div class="cal-day" style="background:transparent;border:none;font-size:0.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center">FRI</div>
+      <div class="cal-day" style="background:transparent;border:none;font-size:0.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center">SAT</div>
+      <div class="cal-day" style="background:transparent;border:none;font-size:0.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center">SUN</div>
+      <div class="cal-day">3</div>
+      <div class="cal-day has-post">4<div class="cal-post">📘 Product launch</div></div>
+      <div class="cal-day">5</div>
+      <div class="cal-day has-post">6<div class="cal-post">📸 Behind scenes</div></div>
+      <div class="cal-day">7</div>
+      <div class="cal-day has-post">8<div class="cal-post">🐦 Tips thread</div></div>
+      <div class="cal-day">9</div>
+      <div class="cal-day has-post">10<div class="cal-post">💼 Case study</div></div>
+      <div class="cal-day">11</div>
+      <div class="cal-day has-post">12<div class="cal-post">📸 Reel + Story</div></div>
+      <div class="cal-day">13</div>
+      <div class="cal-day has-post">14<div class="cal-post">❤️ Valentine offer</div></div>
     </div>
   </div>
-</div>
 
-<!-- HOW IT WORKS -->
-<div class="flow-section">
-  <div class="section-label">How It Works</div>
-  <div class="section-title">Social management <em>simplified</em></div>
-  <div class="flow-steps">
-    <div class="flow-step"><div class="fs-dot">1</div><div class="fs-label">Connect Accounts</div><div class="fs-sub">Link all your social profiles in one click</div></div>
-    <div class="flow-step"><div class="fs-dot">2</div><div class="fs-label">Create Content</div><div class="fs-sub">Use AI or create your own posts</div></div>
-    <div class="flow-step"><div class="fs-dot">3</div><div class="fs-label">Schedule</div><div class="fs-sub">Pick optimal times or let AI decide</div></div>
-    <div class="flow-step"><div class="fs-dot">4</div><div class="fs-label">Engage</div><div class="fs-sub">Reply to all comments from one inbox</div></div>
-    <div class="flow-step"><div class="fs-dot">5</div><div class="fs-label">Analyze</div><div class="fs-sub">Track performance and optimize strategy</div></div>
+  <div class="inbox-preview" style="margin-top:24px">
+    <div class="inbox-header"><span>Unified Inbox</span><span class="inbox-badge">12 New</span></div>
+    <div class="inbox-item"><div class="inbox-avatar">😊</div><div class="inbox-content"><div class="inbox-name">Rahul K. <span class="inbox-platform">📘 FB</span></div><div class="inbox-msg">This product is amazing! When's the next sale?</div></div><div class="inbox-time">2m ago</div></div>
+    <div class="inbox-item"><div class="inbox-avatar">🌟</div><div class="inbox-content"><div class="inbox-name">Priya S. <span class="inbox-platform">📸 IG</span></div><div class="inbox-msg">Love your content! Can you do a collab?</div></div><div class="inbox-time">14m ago</div></div>
+    <div class="inbox-item"><div class="inbox-avatar">💼</div><div class="inbox-content"><div class="inbox-name">Tech Corp <span class="inbox-platform">💼 LI</span></div><div class="inbox-msg">Interested in your B2B services. Send a proposal.</div></div><div class="inbox-time">1h ago</div></div>
   </div>
 </div>
 
-<!-- CONTENT BLOCK -->
-<div style="border-top:1px solid var(--border)">
-  <div class="content-block">
-    <div class="two-col">
-      <div class="two-col-text">
-        <div class="section-label">Unified Inbox</div>
-        <h2>Never miss a<br><em>customer message</em></h2>
-        <p>All your social media messages, comments, and mentions from Facebook, Instagram, Twitter, LinkedIn, and more — in one unified inbox.</p>
-        <p>Assign conversations to team members, set response templates, and track response times with SLA alerts.</p>
-        <a href="#" class="btn-outline">See Inbox Demo</a>
-      </div>
-      <div class="two-col-visual">
-        <div class="mock-row"><span class="mock-dot"></span> 📘 Facebook · 12 new comments · 3 DMs</div>
-        <div class="mock-row"><span class="mock-dot yellow"></span> 📸 Instagram · 45 mentions · 8 DMs</div>
-        <div class="mock-row"><span class="mock-dot"></span> 🐦 Twitter · 23 replies · 5 mentions</div>
-        <div class="mock-row"><span class="mock-dot blue"></span> 💼 LinkedIn · 7 comments · 2 messages</div>
-        <div style="margin-top:8px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:6px;font-size:0.78rem;color:var(--muted2)">
-          Total unread: <strong style="color:#fff">95 messages</strong> across 4 platforms
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PRICING -->
-<div id="pricing" style="border-top:1px solid var(--border)">
-  <div class="section">
-    <div class="section-label">Pricing</div>
-    <div class="section-title">Plans for <em>every team</em></div>
+<div style="border-top:1px solid var(--border);background:var(--bg2);padding:80px 24px">
+  <div class="section" style="padding:0;max-width:1200px">
+    <div class="sl">Pricing</div>
+    <div class="st">Plans for every <em>team size</em></div>
     <div class="pricing-grid">
       <div class="price-card">
-        <div class="price-badge">Solo</div>
-        <div class="price-name">Creator</div>
-        <div class="price-amount">₹799<span>/mo</span></div>
-        <div class="price-desc">Perfect for individual creators and small brands.</div>
+        <div class="price-name">Solo</div>
+        <div class="price-amount">₹699</div>
+        <div class="price-period">per month</div>
+        <a href="#" class="price-btn pbo">Start Free</a>
         <ul class="price-features">
-          <li>5 social accounts</li>
-          <li>30 scheduled posts/mo</li>
-          <li>Basic analytics</li>
-          <li>Unified inbox</li>
-          <li>AI caption writer</li>
+          <li><span class="check">✓</span>5 social accounts</li>
+          <li><span class="check">✓</span>30 posts/month</li>
+          <li><span class="check">✓</span>Basic analytics</li>
+          <li><span class="check">✓</span>1 user</li>
         </ul>
-        <a href="#" class="btn-outline" style="width:100%;text-align:center">Start Creator Plan</a>
       </div>
       <div class="price-card featured">
-        <div class="price-badge">Most Popular</div>
+        <div class="price-badge">POPULAR</div>
         <div class="price-name">Business</div>
-        <div class="price-amount">₹2,499<span>/mo</span></div>
-        <div class="price-desc">For businesses and growing social media teams.</div>
+        <div class="price-amount">₹1,999</div>
+        <div class="price-period">per month</div>
+        <a href="#" class="price-btn pbs">Start Free</a>
         <ul class="price-features">
-          <li>20 social accounts</li>
-          <li>Unlimited scheduled posts</li>
-          <li>Advanced analytics</li>
-          <li>Team collaboration (5)</li>
-          <li>Content studio</li>
-          <li>Competitor analysis</li>
+          <li><span class="check">✓</span>20 accounts</li>
+          <li><span class="check">✓</span>Unlimited posts</li>
+          <li><span class="check">✓</span>Full analytics</li>
+          <li><span class="check">✓</span>Unified inbox</li>
+          <li><span class="check">✓</span>5 team members</li>
         </ul>
-        <a href="#" class="btn-white" style="width:100%;text-align:center">Start Business Plan</a>
       </div>
       <div class="price-card">
-        <div class="price-badge">Agencies</div>
         <div class="price-name">Agency</div>
-        <div class="price-amount">₹5,999<span>/mo</span></div>
-        <div class="price-desc">For agencies managing multiple client accounts.</div>
+        <div class="price-amount">₹4,999</div>
+        <div class="price-period">per month</div>
+        <a href="#" class="price-btn pbo">Start Free</a>
         <ul class="price-features">
-          <li>Unlimited accounts</li>
-          <li>Unlimited team members</li>
-          <li>White label dashboard</li>
-          <li>Client reporting</li>
-          <li>Approval workflows</li>
-          <li>Dedicated support</li>
+          <li><span class="check">✓</span>100 accounts</li>
+          <li><span class="check">✓</span>Unlimited posts</li>
+          <li><span class="check">✓</span>White label</li>
+          <li><span class="check">✓</span>Client portal</li>
+          <li><span class="check">✓</span>15 team members</li>
         </ul>
-        <a href="#" class="btn-outline" style="width:100%;text-align:center">Start Agency Plan</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Enterprise</div>
+        <div class="price-amount">Custom</div>
+        <div class="price-period">contact us</div>
+        <a href="#" class="price-btn pbo">Contact Sales</a>
+        <ul class="price-features">
+          <li><span class="check">✓</span>Unlimited accounts</li>
+          <li><span class="check">✓</span>Dedicated manager</li>
+          <li><span class="check">✓</span>Custom integrations</li>
+          <li><span class="check">✓</span>SLA guarantee</li>
+        </ul>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- TESTIMONIALS -->
-<div class="testimonials">
-  <div class="testimonials-inner">
-    <div class="section-label">Testimonials</div>
-    <div class="section-title">Loved by <em>social media teams</em></div>
-    <div class="testimonials-grid">
-      <div class="t-card"><div class="t-stars">★★★★★</div><div class="t-text">"AxeSocials cut our social media management time by 60%. The unified inbox is a lifesaver."</div><div class="t-author"><div class="t-avatar">NM</div><div><div class="t-name">Nisha Malhotra</div><div class="t-role">Social Media Manager</div></div></div></div>
-      <div class="t-card"><div class="t-stars">★★★★★</div><div class="t-text">"Managing 50+ client accounts from one dashboard is incredible. The white label feature is perfect for our agency."</div><div class="t-author"><div class="t-avatar">AK</div><div><div class="t-name">Amit Khanna</div><div class="t-role">Digital Agency CEO</div></div></div></div>
-      <div class="t-card"><div class="t-stars">★★★★★</div><div class="t-text">"The AI caption writer generates better content than our copywriter. Engagement went up 40% in one month."</div><div class="t-author"><div class="t-avatar">RD</div><div><div class="t-name">Riya Desai</div><div class="t-role">Brand Strategist</div></div></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- CTA -->
-<div class="cta-section">
-  <div class="cta-title">Dominate social media<br><em>starting today</em></div>
-  <p class="cta-sub">Join 5,000+ agencies and brands using AxeSocials to grow their social presence.</p>
-  <div class="hero-actions">
-    <a href="#" class="btn-white">Start Free Trial</a>
-    <a href="index.html#platforms" class="btn-outline">Explore All Platforms</a>
   </div>
 </div>
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="index.html" class="logo">kimi<span>axe</span></a>
-        <p class="footer-desc">The complete business operating system. 6 powerful platforms under one roof.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Platforms</h4>
-        <a href="axesms.html">AxeSMS</a>
-        <a href="axexvx.html">AxeXVX</a>
-        <a href="axeb2bai.html">AxeB2B AI</a>
-        <a href="axeb2bwallet.html">AxeB2B Wallet</a>
-        <a href="axesocials.html">AxeSocials</a>
-      </div>
-      <div class="footer-col">
-        <h4>AxeSocials</h4>
-        <a href="#">Scheduler</a>
-        <a href="#">Analytics</a>
-        <a href="#">Unified Inbox</a>
-        <a href="#">Agency Tools</a>
-        <a href="#">Pricing</a>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <a href="#" onclick="openModal('terms')">Terms & Conditions</a>
-        <a href="#" onclick="openModal('privacy')">Privacy Policy</a>
-        <a href="#" onclick="openModal('refund')">Refund Policy</a>
-        <a href="#" onclick="openModal('cookie')">Cookie Policy</a>
-      </div>
-      <div class="footer-col">
-        <h4>Support</h4>
-        <a href="#">Help Center</a>
-        <a href="#">API Docs</a>
-        <a href="#">Status Page</a>
-        <a href="#">Contact</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 KimiAxe / AxeSocials. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="#">Twitter</a><a href="#">LinkedIn</a><a href="#">GitHub</a><a href="#">Telegram</a>
-      </div>
+    <div class="footer-copy">© 2025 AxeSocials.com — Part of KimiAxe Ecosystem</div>
+    <div class="footer-links">
+      <a href="#" onclick="openModal('terms')">Terms</a>
+      <a href="#" onclick="openModal('privacy')">Privacy</a>
+      <a href="#" onclick="openModal('social-policy')">Social Policy</a>
+      <a href="#" onclick="openModal('agency')">Agency Agreement</a>
+      <a href="#" onclick="openModal('refund')">Refund</a>
+      <a href="kimiaxe.html">← Main Site</a>
     </div>
   </div>
 </footer>
 
-<!-- LEGAL MODALS -->
-<div class="modal-overlay" id="modal-terms" onclick="closeModal('terms')"><div class="modal" onclick="event.stopPropagation()"><div class="modal-header"><span class="modal-title">Terms & Conditions — KimiAxe</span><button class="modal-close" onclick="closeModal('terms')">✕</button></div><div class="modal-body"><h3>1. Acceptance of Terms</h3><p>By accessing or using KimiAxe services, you agree to be bound by these Terms and Conditions.</p><h3>2. Social Media Usage</h3><p>You are responsible for content posted via AxeSocials. Content must comply with each platform's terms of service.</p><p style="margin-top:24px;color:var(--muted);font-size:0.75rem">Last updated: January 2025</p></div></div></div>
-<div class="modal-overlay" id="modal-privacy" onclick="closeModal('privacy')"><div class="modal" onclick="event.stopPropagation()"><div class="modal-header"><span class="modal-title">Privacy Policy — KimiAxe</span><button class="modal-close" onclick="closeModal('privacy')">✕</button></div><div class="modal-body"><h3>1. Social Data</h3><p>We access your social media accounts only with your explicit permission and OAuth authorization.</p><p style="margin-top:24px;color:var(--muted);font-size:0.75rem">Last updated: January 2025</p></div></div></div>
-<div class="modal-overlay" id="modal-refund" onclick="closeModal('refund')"><div class="modal" onclick="event.stopPropagation()"><div class="modal-header"><span class="modal-title">Refund Policy — KimiAxe</span><button class="modal-close" onclick="closeModal('refund')">✕</button></div><div class="modal-body"><h3>1. Subscription Refunds</h3><p>Refunds available within 24 hours of purchase if service not used.</p><p style="margin-top:24px;color:var(--muted);font-size:0.75rem">Last updated: January 2025</p></div></div></div>
-<div class="modal-overlay" id="modal-cookie" onclick="closeModal('cookie')"><div class="modal" onclick="event.stopPropagation()"><div class="modal-header"><span class="modal-title">Cookie Policy — KimiAxe</span><button class="modal-close" onclick="closeModal('cookie')">✕</button></div><div class="modal-body"><h3>1. Cookies Used</h3><p>We use essential and analytics cookies to improve your experience.</p><p style="margin-top:24px;color:var(--muted);font-size:0.75rem">Last updated: January 2025</p></div></div></div>
+<div class="modal-overlay" id="modal-terms" onclick="closeModal('terms')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header"><span class="modal-title">Terms & Conditions — AxeSocials</span><button class="modal-close" onclick="closeModal('terms')">✕</button></div>
+    <div class="modal-body">
+      <h3>1. Service</h3><p>AxeSocials provides social media management, scheduling, analytics, and automation tools. By connecting your social accounts, you authorize us to post and manage content on your behalf.</p>
+      <h3>2. Social Platform Compliance</h3><p>You are responsible for ensuring all content complies with each social platform's terms of service. AxeSocials is not liable for platform policy violations.</p>
+      <h3>3. Account Security</h3><p>OAuth tokens for social platforms are stored encrypted. You may revoke access at any time through your account settings or the respective social platform.</p>
+      <h3>4. Content Ownership</h3><p>You retain full ownership of all content you create and publish through AxeSocials. We do not claim any rights to your content.</p>
+      <h3>5. Auto-Posting</h3><p>You authorize automated posting on your behalf when scheduling is enabled. Review scheduled content before it goes live to ensure accuracy.</p>
+      <h3>6. Agency Use</h3><p>Agency users must obtain explicit authorization from clients before managing their social accounts through AxeSocials.</p>
+      <p style="margin-top:20px;color:var(--muted);font-size:0.72rem">Last updated: January 2025 | AxeSocials.com</p>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-privacy" onclick="closeModal('privacy')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header"><span class="modal-title">Privacy Policy — AxeSocials</span><button class="modal-close" onclick="closeModal('privacy')">✕</button></div>
+    <div class="modal-body">
+      <h3>1. Social Data</h3><p>We access your social media data (posts, analytics, messages) only as authorized via OAuth. This data is used to provide the service and is not shared.</p>
+      <h3>2. Analytics Data</h3><p>We store analytics data (likes, reaches, impressions) to provide historical reporting. This data is retained for your account's lifetime plus 1 year.</p>
+      <h3>3. Inbox Data</h3><p>Messages and comments processed through our unified inbox are temporarily cached for display. We do not permanently store message content.</p>
+      <h3>4. Third Parties</h3><p>We use cloud infrastructure and analytics tools. All sub-processors are bound by data processing agreements.</p>
+      <p style="margin-top:20px;color:var(--muted);font-size:0.72rem">Last updated: January 2025 | AxeSocials.com</p>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-social-policy" onclick="closeModal('social-policy')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header"><span class="modal-title">Social Media Policy — AxeSocials</span><button class="modal-close" onclick="closeModal('social-policy')">✕</button></div>
+    <div class="modal-body">
+      <h3>Acceptable Content</h3><p>AxeSocials may be used for legitimate business social media management including brand content, marketing campaigns, customer engagement, and community management.</p>
+      <h3>Prohibited Content</h3><p>Spam, hate speech, misinformation, coordinated inauthentic behavior, fake engagement, or any content violating platform policies is strictly prohibited.</p>
+      <h3>Automation Limits</h3><p>Follow/unfollow automation must respect platform rate limits. Bulk follow/unfollow operations that violate platform terms are prohibited.</p>
+      <h3>Enforcement</h3><p>Accounts found violating this policy are suspended. We cooperate with social platforms in investigating policy violations.</p>
+      <p style="margin-top:20px;color:var(--muted);font-size:0.72rem">Last updated: January 2025 | AxeSocials.com</p>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-agency" onclick="closeModal('agency')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header"><span class="modal-title">Agency Agreement — AxeSocials</span><button class="modal-close" onclick="closeModal('agency')">✕</button></div>
+    <div class="modal-body">
+      <h3>Agency Responsibilities</h3><p>Agencies using AxeSocials to manage client accounts must have written authorization from each client. Agencies are liable for all content published on client accounts.</p>
+      <h3>Client Data</h3><p>Client social data accessed through AxeSocials must be used only for providing services to that specific client. Client data may not be shared between agency accounts.</p>
+      <h3>White Label</h3><p>White label features allow agencies to present AxeSocials as their own product. Agencies must not misrepresent the underlying technology to clients in ways that could be fraudulent.</p>
+      <h3>Sub-accounts</h3><p>Agency sub-accounts for clients are subject to the same terms as primary accounts. Agencies are responsible for their clients' compliance.</p>
+      <p style="margin-top:20px;color:var(--muted);font-size:0.72rem">Last updated: January 2025 | AxeSocials.com</p>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-refund" onclick="closeModal('refund')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header"><span class="modal-title">Refund Policy — AxeSocials</span><button class="modal-close" onclick="closeModal('refund')">✕</button></div>
+    <div class="modal-body">
+      <h3>Free Trial</h3><p>All plans come with a 14-day free trial. No credit card required during trial. Cancel anytime during trial at no charge.</p>
+      <h3>Subscription Refunds</h3><p>Monthly plans: Refundable within 48 hours if fewer than 10 posts have been scheduled. Annual plans: Refundable on a pro-rata basis within 30 days.</p>
+      <h3>Service Downtime</h3><p>If AxeSocials is unavailable for more than 12 hours in a month, affected subscribers receive a pro-rata credit.</p>
+      <h3>Process</h3><p>Contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2a584f4c5f444e6a4b524f594549434b465904494547">[email&#160;protected]</a> with your account details. Approved refunds processed in 5-7 business days.</p>
+      <p style="margin-top:20px;color:var(--muted);font-size:0.72rem">Last updated: January 2025 | AxeSocials.com</p>
+    </div>
+  </div>
+</div>
 
-<script src="js/main.js"></script>
-<script src="js/axesocials.js"></script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function openModal(id){document.getElementById('modal-'+id).classList.add('active');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById('modal-'+id).classList.remove('active');document.body.s

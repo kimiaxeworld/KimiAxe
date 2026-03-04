@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>API Keys — KimiAxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999;--sw:220px}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);border-right:1px solid var(--bd);background:var(--bg);z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--bd)}
+.logo{font-family:'Geist Mono',monospace;font-size:1rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.sb-section{padding:10px 10px 4px}
+.sb-label{font-size:0.58rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;font-family:'Geist Mono',monospace;padding:0 8px;margin-bottom:3px}
+.sb-link{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;font-size:0.8rem;color:var(--m);cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-link:hover,.sb-link.active{background:var(--bg3);color:var(--t)}
+.sb-link .ic{width:18px;text-align:center}
+.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--bd)}
+.main{margin-left:var(--sw);min-height:100vh}
+.topbar{height:52px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-title{font-size:0.9rem;font-weight:700}
+.tb-r{display:flex;gap:8px}
+.pbtn{background:var(--t);color:#000;padding:7px 14px;border-radius:7px;font-weight:700;font-size:0.78rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.pbtn:hover{background:#e5e5e5}
+.obtn{background:transparent;color:var(--t);padding:7px 14px;border-radius:7px;font-size:0.78rem;border:1px solid var(--bd2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.content{padding:24px;max-width:900px}
+.ph{padding:0 0 32px;border-bottom:1px solid var(--bd);margin-bottom:32px}
+.pl{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.pt{font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px;margin-bottom:6px}
+.pt em{font-style:italic;color:var(--m)}
+.pd{font-size:0.85rem;color:var(--m)}
+.panel{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
+.p-title{font-size:0.88rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.key-card{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:12px}
+.kc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.kc-name{font-size:0.85rem;font-weight:700}
+.kc-env{font-size:0.62rem;padding:2px 8px;border-radius:4px;font-family:'Geist Mono',monospace}
+.env-live{background:rgba(34,197,94,0.08);color:#22c55e;border:1px solid rgba(34,197,94,0.15)}
+.env-test{background:rgba(234,179,8,0.08);color:#eab308;border:1px solid rgba(234,179,8,0.15)}
+.key-display{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:10px 14px;margin-bottom:10px}
+.kd-value{flex:1;font-family:'Geist Mono',monospace;font-size:0.78rem;color:var(--m)}
+.kd-btn{font-size:0.68rem;padding:3px 9px;border:1px solid var(--bd2);border-radius:4px;cursor:pointer;background:transparent;color:var(--t);font-family:'Geist Mono',monospace;white-space:nowrap}
+.kd-btn:hover{background:rgba(255,255,255,.04)}
+.kc-meta{display:flex;gap:20px;font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace}
+.code-section{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;margin-top:4px}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bd)}
+.code-lang{font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace;display:flex;gap:8px}
+.lang-btn{padding:3px 8px;border-radius:4px;cursor:pointer;transition:all .15s}
+.lang-btn.active{background:rgba(255,255,255,.08);color:var(--t)}
+.code-body{padding:14px;font-family:'Geist Mono',monospace;font-size:0.75rem;color:#22c55e;line-height:1.8;overflow-x:auto}
+.warn-box{background:rgba(234,179,8,0.06);border:1px solid rgba(234,179,8,0.15);border-radius:8px;padding:12px 16px;font-size:0.78rem;color:#eab308;margin-bottom:16px;display:flex;gap:8px}
+.fg{margin-bottom:12px}
+.fl{font-size:0.65rem;color:var(--m2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:block;font-family:'Geist Mono',monospace}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:7px;padding:10px 13px;color:var(--t);font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--bd2)}
+.fi::placeholder{color:var(--m)}
+select.fi{cursor:pointer}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><a href="dashboard.html" class="logo">kimi<span>axe</span></a></div>
+  <div class="sb-section">
+    <div class="sb-label">Account</div>
+    <a href="dashboard.html" class="sb-link"><span class="ic">⊞</span> Dashboard</a>
+    <a href="profile.html" class="sb-link"><span class="ic">👤</span> Profile</a>
+    <div class="sb-link active"><span class="ic">🔑</span> API Keys</div>
+    <a href="#" class="sb-link"><span class="ic">🔗</span> Webhooks</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Platforms</div>
+    <a href="sms-dashboard.html" class="sb-link"><span class="ic">📱</span> AxeSMS</a>
+    <a href="xvx-dashboard.html" class="sb-link"><span class="ic">🔗</span> AxeXVX</a>
+    <a href="ai-dashboard.html" class="sb-link"><span class="ic">🤖</span> AxeB2B AI</a>
+    <a href="wallet-dashboard.html" class="sb-link"><span class="ic">💰</span> Wallet</a>
+    <a href="socials-dashboard.html" class="sb-link"><span class="ic">📣</span> Socials</a>
+  </div>
+  <div class="sb-bottom"><a href="docs.html" class="sb-link"><span class="ic">📖</span> API Docs</a></div>
+</div>
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><span>🔑</span><div class="tb-title">API Keys</div></div>
+    <div class="tb-r">
+      <a href="docs.html"><button class="obtn">📖 Docs</button></a>
+      <button class="pbtn" onclick="generateKey()">+ Generate New Key</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="ph">
+      <div class="pl">Developer Access</div>
+      <div class="pt">API <em>Keys</em></div>
+      <div class="pd">Use these keys to authenticate API requests. Keep them secret — never share in public code.</div>
+    </div>
+
+    <div class="warn-box">⚠️ Never expose API keys in frontend code. Use environment variables or a secure backend.</div>
+
+    <div class="panel">
+      <div class="p-title">Your API Keys <button class="pbtn" style="font-size:0.72rem;padding:5px 10px" onclick="generateKey()">+ New Key</button></div>
+      <div class="key-card">
+        <div class="kc-top"><div class="kc-name">Production Key</div><span class="kc-env env-live">LIVE</span></div>
+        <div class="key-display">
+          <div class="kd-value" id="liveKey">ka_live_••••••••••••••••••••••••••••••••</div>
+          <button class="kd-btn" onclick="toggleKey('liveKey','ka_live_xK9mN2pQ4rS7vW1yZ3bD6fH8jL0')">👁 Reveal</button>
+          <button class="kd-btn" onclick="copyKey('ka_live_xK9mN2pQ4rS7vW1yZ3bD6fH8jL0')">📋 Copy</button>
+          <button class="kd-btn" style="color:#f87171;border-color:rgba(239,68,68,.3)" onclick="if(confirm('Rotate this key?'))alert('Key rotated!')">🔄 Rotate</button>
+        </div>
+        <div class="kc-meta"><span>Created: Jan 2025</span><span>Last used: Never</span><span>Requests: 0</span></div>
+      </div>
+      <div class="key-card">
+        <div class="kc-top"><div class="kc-name">Test Key</div><span class="kc-env env-test">TEST</span></div>
+        <div class="key-display">
+          <div class="kd-value" id="testKey">ka_test_••••••••••••••••••••••••••••••••</div>
+          <button class="kd-btn" onclick="toggleKey('testKey','ka_test_aB2cD4eF6gH8iJ0kL2mN4oP6')">👁 Reveal</button>
+          <button class="kd-btn" onclick="copyKey('ka_test_aB2cD4eF6gH8iJ0kL2mN4oP6')">📋 Copy</button>
+          <button class="kd-btn" style="color:#f87171;border-color:rgba(239,68,68,.3)">🔄 Rotate</button>
+        </div>
+        <div class="kc-meta"><span>Created: Jan 2025</span><span>Last used: Never</span><span>Requests: 0</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="p-title">Quick Start — Code Examples</div>
+      <div class="code-section">
+        <div class="code-head">
+          <div class="code-lang">
+            <span class="lang-btn active">cURL</span>
+            <span class="lang-btn">Node.js</span>
+            <span class="lang-btn">PHP</span>
+            <span class="lang-btn">Python</span>
+          </div>
+          <button class="kd-btn" onclick="alert('Copied!')">📋 Copy</button>
+        </div>
+        <div class="code-body">
+# Send Bulk SMS<br>
+curl -X POST https://api.kimiaxe.com/v1/sms/send \<br>
+&nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+&nbsp;&nbsp;-d '{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"to": ["+919876543210", "+919876543211"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"message": "Hello from KimiAxe!",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"sender": "AXESMS"<br>
+&nbsp;&nbsp;}'<br><br>
+# Shorten a URL<br>
+curl -X POST https://api.kimiaxe.com/v1/links/shorten \<br>
+&nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br>
+&nbsp;&nbsp;-d '{"url": "https://your-long-url.com"}'
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="p-title">Create New API Key</div>
+      <div class="grid2">
+        <div class="fg"><label class="fl">Key Name</label><input class="fi" placeholder="e.g. Production App"/></div>
+        <div class="fg"><label class="fl">Environment</label><select class="fi"><option>Production (Live)</option><option>Development (Test)</option></select></div>
+        <div class="fg"><label class="fl">Permissions</label><select class="fi"><option>Full Access</option><option>Read Only</option><option>SMS Only</option><option>Links Only</option><option>Custom...</option></select></div>
+        <div class="fg"><label class="fl">IP Restriction (Optional)</label><input class="fi" placeholder="e.g. 203.0.113.0/24"/></div>
+      </div>
+      <button class="pbtn" style="padding:10px 20px" onclick="generateKey()">Generate API Key →</button>
+    </div>
+  </div>
+</div>
+<script>
+const shown={};
+function toggleKey(id,val){const el=document.getElementById(id);shown[id]=!shown[id];el.textContent=shown[id]?val:id.includes('live')?'ka_live_••••••••••••••••••••••••••••••••':'ka_test_••••••••••••••••••••••••••••••••'}
+function copyKey(k){navigator.clipboard.writeText(k).then(()=>alert('API Key copied!'))}
+function generateKey(){const n=prompt('Enter a name for your new API key:','My API Key');if(n){const k='ka_live_'+Math.random().toString(36).substr(2,32);alert('New key generated!\n\n'+k+'\n\nSave this now — it won\'t be shown again!')}}
+</script>
+</body>
+</html>
