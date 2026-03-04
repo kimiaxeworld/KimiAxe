@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KimiAxe — About, Contact & Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--border:#222;--border2:#333;--text:#fff;--muted:#666;--muted2:#999}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.92);backdrop-filter:blur(20px)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Geist Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--text);text-decoration:none}
+.logo span{color:var(--muted)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-back{color:var(--muted);text-decoration:none;font-size:0.8rem;padding:6px 12px;border-radius:6px;border:1px solid var(--border);transition:all 0.15s}
+.nav-back:hover{color:var(--text);border-color:var(--border2)}
+.btn-w{background:var(--text);color:var(--bg);padding:7px 16px;border-radius:6px;font-weight:600;font-size:0.82rem;text-decoration:none}
+.btn-w:hover{background:#e5e5e5}
+
+/* TABS */
+.tabs-bar{border-bottom:1px solid var(--border);background:var(--bg);padding-top:56px;position:sticky;top:56px;z-index:90}
+.tabs-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;gap:0;overflow-x:auto}
+.tab-btn{padding:14px 20px;font-size:0.82rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--text);border-bottom-color:var(--text)}
+
+/* PAGES */
+.page{display:none;max-width:1200px;margin:0 auto;padding:56px 24px 100px}
+.page.active{display:block}
+
+/* PAGE HERO */
+.ph{padding:56px 0 48px;border-bottom:1px solid var(--border);margin-bottom:56px}
+.pl{font-family:'Geist Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.pt{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,5vw,3.8rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px}
+.pt em{font-style:italic;color:var(--muted)}
+.pd{font-size:0.95rem;color:var(--muted);max-width:480px;line-height:1.75}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px;transition:border-color 0.2s}
+.card:hover{border-color:var(--border2)}
+.ci{font-size:1.5rem;margin-bottom:14px}
+.ct{font-size:0.95rem;font-weight:700;margin-bottom:8px}
+.cd{font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.cl{font-size:0.78rem;color:var(--text);text-decoration:none;font-family:'Geist Mono',monospace;display:inline-flex;align-items:center;gap:6px;border-bottom:1px solid var(--border2);padding-bottom:2px;transition:border-color 0.15s}
+.cl:hover{border-color:var(--text)}
+
+/* FORM */
+.fg{margin-bottom:20px}
+.fl{font-size:0.72rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:block;font-family:'Geist Mono',monospace}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-size:0.88rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.15s}
+.fi:focus{border-color:var(--border2)}
+.fi::placeholder{color:var(--muted)}
+textarea.fi{resize:vertical;min-height:120px}
+select.fi{cursor:pointer;-webkit-appearance:none;appearance:none}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sbtn{background:var(--text);color:var(--bg);padding:13px 28px;border-radius:8px;font-weight:700;font-size:0.88rem;border:none;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.sbtn:hover{background:#e5e5e5;transform:translateY(-1px)}
+.obtn{background:transparent;color:var(--text);padding:13px 28px;border-radius:8px;font-weight:500;font-size:0.88rem;border:1px solid var(--border2);cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-block}
+.obtn:hover{border-color:#555}
+
+/* DIVIDER */
+.div{height:1px;background:var(--border);margin:48px 0}
+.div-label{display:flex;align-items:center;gap:16px;margin:48px 0}
+.div-label span{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.div-label::before,.div-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* SECTION */
+.sec{margin-bottom:56px}
+.sl{font-family:'Geist Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.st{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,3vw,2.5rem);letter-spacing:-1px;margin-bottom:32px}
+.st em{font-style:italic;color:var(--muted)}
+
+/* TEAM */
+.team-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;transition:border-color 0.2s}
+.team-card:hover{border-color:var(--border2)}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 16px}
+.tm-name{font-size:0.95rem;font-weight:700;margin-bottom:4px}
+.tm-role{font-size:0.75rem;color:var(--muted);font-family:'Geist Mono',monospace;letter-spacing:1px;text-transform:uppercase}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border)}
+.tl-item{position:relative;padding-bottom:36px}
+.tl-item::before{content:'';position:absolute;left:-36px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:1px solid var(--border2)}
+.tl-year{font-family:'Geist Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:2px;margin-bottom:6px}
+.tl-title{font-size:0.95rem;font-weight:700;margin-bottom:4px}
+.tl-desc{font-size:0.82rem;color:var(--muted);line-height:1.6}
+
+/* VALUES */
+.val-item{padding:24px;border-left:2px solid var(--border);margin-bottom:20px;transition:border-color 0.2s}
+.val-item:hover{border-left-color:var(--text)}
+.val-title{font-size:0.95rem;font-weight:700;margin-bottom:6px}
+.val-desc{font-size:0.82rem;color:var(--muted);line-height:1.7}
+
+/* STATUS */
+.status-item{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.status-item:last-child{border-bottom:none}
+.status-left{display:flex;align-items:center;gap:12px}
+.status-dot{width:8px;height:8px;border-radius:50%}
+.dot-green{background:#22c55e;box-shadow:0 0 8px #22c55e}
+.dot-yellow{background:#eab308;box-shadow:0 0 8px #eab308}
+.dot-red{background:#ef4444;box-shadow:0 0 8px #ef4444}
+.status-name{font-size:0.88rem;font-weight:500}
+.status-badge{font-size:0.72rem;font-family:'Geist Mono',monospace;padding:4px 10px;border-radius:4px;letter-spacing:1px}
+.badge-op{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}
+.badge-deg{background:rgba(234,179,8,0.1);color:#eab308;border:1px solid rgba(234,179,8,0.2)}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--border);padding:20px 0;cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:0.92rem;font-weight:600}
+.faq-icon{color:var(--muted);font-size:1.2rem;transition:transform 0.2s}
+.faq-a{font-size:0.82rem;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s}
+.faq-item.open .faq-a{max-height:200px;padding-top:12px}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+
+/* CONTACT CHANNELS */
+.ch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:40px}
+.ch-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;display:flex;align-items:center;gap:16px;text-decoration:none;transition:border-color 0.2s}
+.ch-card:hover{border-color:var(--border2)}
+.ch-icon{font-size:2rem;width:48px;text-align:center;flex-shrink:0}
+.ch-name{font-size:0.92rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.ch-handle{font-size:0.75rem;color:var(--muted);font-family:'Geist Mono',monospace}
+
+/* SUCCESS MSG */
+.success-msg{display:none;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:16px 20px;font-size:0.85rem;color:#22c55e;margin-top:16px}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:36px 24px;margin-top:80px}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap}
+.footer-links a{font-size:0.75rem;color:var(--muted);text-decoration:none}
+.footer-links a:hover{color:var(--text)}
+.fc{font-size:0.75rem;color:var(--muted)}
+
+@media(max-width:768px){.g2,.g3,.g4,.fr,.ch-grid{grid-template-columns:1fr}.tabs-inner{overflow-x:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="kimiaxe.html" class="logo">kimi<span>axe</span></a>
+    <div class="nav-right">
+      <a href="kimiaxe.html" class="nav-back">← Home</a>
+      <a href="#" class="btn-w">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<div class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab-btn active" onclick="showPage('about')">About</button>
+    <button class="tab-btn" onclick="showPage('contact')">Contact</button>
+    <button class="tab-btn" onclick="showPage('support')">Support</button>
+    <button class="tab-btn" onclick="showPage('email')">Email Us</button>
+    <button class="tab-btn" onclick="showPage('status')">Status</button>
+    <button class="tab-btn" onclick="showPage('faq')">FAQ</button>
+  </div>
+</div>
+
+<!-- ==================== ABOUT PAGE ==================== -->
+<div id="page-about" class="page active">
+  <div class="ph">
+    <div class="pl">About Us</div>
+    <div class="pt">Building the future of<br><em>business infrastructure</em></div>
+    <div class="pd">KimiAxe is India's complete Business Operating System — 6 powerful platforms, one account, zero complexity.</div>
+  </div>
+
+  <div class="sec">
+    <div class="g2">
+      <div>
+        <div class="sl">Our Mission</div>
+        <div class="st">Why we <em>built this</em></div>
+        <p style="font-size:0.92rem;color:var(--muted);line-height:1.8;margin-bottom:20px">Businesses waste hours managing 10 different tools — SMS platform, email tool, social media scheduler, link shortener, chatbot, eSIM, domains — all separate, all different logins, all different bills.</p>
+        <p style="font-size:0.92rem;color:var(--muted);line-height:1.8;margin-bottom:20px">We built KimiAxe to fix this. One account. One wallet. One dashboard. Everything connected.</p>
+        <p style="font-size:0.92rem;color:var(--muted);line-height:1.8">From a solo entrepreneur to a 500-person agency — KimiAxe scales with you.</p>
+      </div>
+      <div>
+        <div class="g2" style="margin-bottom:16px">
+          <div class="card" style="text-align:center">
+            <div style="font-family:'Instrument Serif',serif;font-size:3rem;letter-spacing:-2px">6</div>
+            <div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px">Platforms</div>
+          </div>
+          <div class="card" style="text-align:center">
+            <div style="font-family:'Instrument Serif',serif;font-size:3rem;letter-spacing:-2px">190+</div>
+            <div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px">Countries</div>
+          </div>
+          <div class="card" style="text-align:center">
+            <div style="font-family:'Instrument Serif',serif;font-size:3rem;letter-spacing:-2px">24/7</div>
+            <div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px">AI Active</div>
+          </div>
+          <div class="card" style="text-align:center">
+            <div style="font-family:'Instrument Serif',serif;font-size:3rem;letter-spacing:-2px">₹0</div>
+            <div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px">Sign Up</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-label"><span>Our Story</span></div>
+
+  <div class="sec">
+    <div class="g2">
+      <div>
+        <div class="sl">Timeline</div>
+        <div class="st">How we <em>got here</em></div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">2024 — Q1</div>
+            <div class="tl-title">Idea Born</div>
+            <div class="tl-desc">Started with AxeSMS — a simple bulk SMS tool for Indian businesses.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2024 — Q2</div>
+            <div class="tl-title">AxeXVX & AxeB2B AI</div>
+            <div class="tl-desc">Added link shortening, APK hosting, and first AI chatbot features.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2024 — Q3</div>
+            <div class="tl-title">Wallet + eSIM + Domains</div>
+            <div class="tl-desc">Launched digital wallet, eSIM for 190+ countries, and domain marketplace.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2024 — Q4</div>
+            <div class="tl-title">AxeSocials Launch</div>
+            <div class="tl-desc">Full social media management platform added to the ecosystem.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2025 — Now</div>
+            <div class="tl-title">KimiAxe — Full Ecosystem</div>
+            <div class="tl-desc">All 6 platforms unified under kimiaxe.com. AI auto-fix & auto-post live!</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sl">Our Values</div>
+        <div class="st">What we <em>stand for</em></div>
+        <div class="val-item">
+          <div class="val-title">⚡ Speed First</div>
+          <div class="val-desc">Every feature ships fast. Every API responds in milliseconds. No bloat.</div>
+        </div>
+        <div class="val-item">
+          <div class="val-title">🔒 Security Always</div>
+          <div class="val-desc">KYC verified, 2FA, encrypted data, DDoS protected. Your data is sacred.</div>
+        </div>
+        <div class="val-item">
+          <div class="val-title">🤖 AI Everywhere</div>
+          <div class="val-desc">AI fixes errors, writes content, posts socials, handles customers — 24/7.</div>
+        </div>
+        <div class="val-item">
+          <div class="val-title">🌍 Built for India</div>
+          <div class="val-desc">Rupee payments, TRAI compliance, UPI, Indian servers, Hindi support.</div>
+        </div>
+        <div class="val-item">
+          <div class="val-title">💰 Fair Pricing</div>
+          <div class="val-desc">No hidden charges. Transparent billing. Pay only what you use.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-label"><span>Our Platforms</span></div>
+
+  <div class="sec">
+    <div class="g3">
+      <a href="axesms.html" class="card" style="text-decoration:none;color:inherit">
+        <div class="ci">📱</div><div class="ct">AxeSMS</div>
+        <div class="cd">Bulk SMS, Email, WhatsApp & Virtual Numbers</div>
+        <div class="cl">axesms.org →</div>
+      </a>
+      <a href="axexvx.html" class="card" style="text-decoration:none;color:inherit">
+        <div class="ci">🔗</div><div class="ct">AxeXVX</div>
+        <div class="cd">Smart Link Shortener + APK & File Hosting</div>
+        <div class="cl">axexvx.link →</div>
+      </a>
+      <a href="axeb2bai.html" class="card" style="text-decoration:none;color:inherit">
+        <div class="ci">🤖</div><div class="ct">AxeB2B AI</div>
+        <div class="cd">AI Chatbot, Marketing Manager & Auto Poster</div>
+        <div class="cl">axeb2b.ai →</div>
+      </a>
+      <a href="axeb2bwallet.html" class="card" style="text-decoration:none;color:inherit">
+        <div class="ci">💰</div><div class="ct">AxeB2B Wallet</div>
+        <div class="cd">Digital Wallet, eSIM & Domain Marketplace</div>
+        <div class="cl">axeb2b.wallet →</div>
+      </a>
+      <a href="axesocials.html" class="card" style="text-decoration:none;color:inherit">
+        <div class="ci">📣</div><div class="ct">AxeSocials</div>
+        <div class="cd">Full Social Media Management Platform</div>
+        <div class="cl">axesocials.com →</div>
+      </a>
+      <div class="card" style="background:var(--bg3)">
+        <div class="ci">🌐</div><div class="ct">KimiAxe Hub</div>
+        <div class="cd">One account, one wallet, all platforms connected.</div>
+        <div class="cl">kimiaxe.com →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CONTACT PAGE ==================== -->
+<div id="page-contact" class="page">
+  <div class="ph">
+    <div class="pl">Contact Us</div>
+    <div class="pt">We'd love to <em>hear from you</em></div>
+    <div class="pd">Reach out via any channel. We typically respond within 2-4 hours during business hours.</div>
+  </div>
+
+  <div class="sec">
+    <div class="sl">Quick Channels</div>
+    <div class="st">Reach us <em>instantly</em></div>
+    <div class="ch-grid">
+      <a href="https://t.me/KimiaxeBot" class="ch-card">
+        <div class="ch-icon">✈️</div>
+        <div><div class="ch-name">Telegram Bot</div><div class="ch-handle">@KimiaxeBot</div></div>
+      </a>
+      <a href="mailto:support@kimiaxe.com" class="ch-card">
+        <div class="ch-icon">📧</div>
+        <div><div class="ch-name">Email Support</div><div class="ch-handle">support@kimiaxe.com</div></div>
+      </a>
+      <a href="https://wa.me/+447478033673" class="ch-card">
+        <div class="ch-icon">💬</div>
+        <div><div class="ch-name">WhatsApp</div><div class="ch-handle">+44747803363</div></div>
+      </a>
+      <a href="https://t.me/KimiAxeOfficial" class="ch-card">
+        <div class="ch-icon">📢</div>
+        <div><div class="ch-name">Telegram Channel</div><div class="ch-handle">@KimiAxeworld</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="div-label"><span>Send Message</span></div>
+
+  <div class="sec">
+    <div class="g2">
+      <div>
+        <div class="sl">Contact Form</div>
+        <div class="st">Send us a <em>message</em></div>
+        <div class="fr" style="margin-bottom:20px">
+          <div class="fg"><label class="fl">First Name</label><input class="fi" placeholder="Rahul" /></div>
+          <div class="fg"><label class="fl">Last Name</label><input class="fi" placeholder="Kumar" /></div>
+        </div>
+        <div class="fg"><label class="fl">Email Address</label><input class="fi" type="email" placeholder="kimi@kimiaxe.com" /></div>
+        <div class="fg"><label class="fl">Phone (Optional)</label><input class="fi" type="tel" placeholder="+91 98765 43210" /></div>
+        <div class="fg">
+          <label class="fl">Subject</label>
+          <select class="fi">
+            <option value="">Select a topic...</option>
+            <option>General Inquiry</option>
+            <option>Sales / Pricing</option>
+            <option>Technical Support</option>
+            <option>Billing Issue</option>
+            <option>Partnership / Reseller</option>
+            <option>Bug Report</option>
+            <option>Feature Request</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Message</label><textarea class="fi" placeholder="Tell us how we can help you..."></textarea></div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <button class="sbtn" onclick="submitForm()">Send Message →</button>
+          <a href="mailto:support@kimiaxe.com" class="obtn">Email Directly</a>
+        </div>
+        <div class="success-msg" id="successMsg">✓ Message sent! We'll get back to you within 2-4 hours.</div>
+      </div>
+      <div>
+        <div class="sl">Office Info</div>
+        <div class="st">Find <em>us here</em></div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="ci">🏢</div>
+          <div class="ct">KimiAxe HQ</div>
+          <div class="cd">India — Serving businesses globally across 190+ countries.</div>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="ci">⏰</div>
+          <div class="ct">Business Hours</div>
+          <div class="cd">Mon–Sat: 9:00 AM – 8:00 PM IST<br>Sun: 10:00 AM – 5:00 PM IST<br><br>AI Support: 24/7 via Telegram Bot</div>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="ci">⚡</div>
+          <div class="ct">Response Time</div>
+          <div class="cd">Telegram Bot: Instant (AI)<br>Email: 2–4 hours<br>WhatsApp: 1–2 hours<br>Contact Form: 2–6 hours</div>
+        </div>
+        <div class="card">
+          <div class="ci">🤝</div>
+          <div class="ct">Partnership & Reseller</div>
+          <div class="cd">Want to resell KimiAxe products? Let's talk business!</div>
+          <a href="mailto:partner@kimiaxe.com" class="cl">partner@kimiaxe.com →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SUPPORT PAGE ==================== -->
+<div id="page-support" class="page">
+  <div class="ph">
+    <div class="pl">Support Center</div>
+    <div class="pt">How can we <em>help you?</em></div>
+    <div class="pd">Find answers fast, or get in touch with our support team. AI support available 24/7.</div>
+  </div>
+
+  <div class="sec">
+    <div class="g3" style="margin-bottom:40px">
+      <div class="card">
+        <div class="ci">🤖</div>
+        <div class="ct">AI Support Bot</div>
+        <div class="cd">Instant answers via our Telegram bot. Available 24/7. Resolves 80% of queries instantly.</div>
+        <a href="https://t.me/KimiaxeBot" class="cl">Open Bot →</a>
+      </div>
+      <div class="card">
+        <div class="ci">📖</div>
+        <div class="ct">Documentation</div>
+        <div class="cd">Detailed guides, API docs, tutorials for all 6 platforms. Always up to date.</div>
+        <a href="#" class="cl">Read Docs →</a>
+      </div>
+      <div class="card">
+        <div class="ci">🎫</div>
+        <div class="ct">Submit Ticket</div>
+        <div class="cd">For complex issues, submit a support ticket. Our team responds within 4 hours.</div>
+        <a href="mailto:support@kimiaxe.com" class="cl">Open Ticket →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-label"><span>Platform Support</span></div>
+
+  <div class="sec">
+    <div class="sl">Get Help By Platform</div>
+    <div class="st">Platform-specific <em>support</em></div>
+    <div class="g2">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:1.5rem">📱</span>
+          <div><div class="ct" style="margin:0">AxeSMS Support</div><div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace">axesms.org</div></div>
+        </div>
+        <div class="cd">SMS delivery issues, WhatsApp setup, Virtual number activation, API integration, Billing queries</div>
+        <a href="mailto:sms@axesms.org" class="cl">sms@axesms.org→</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:1.5rem">🔗</span>
+          <div><div class="ct" style="margin:0">AxeXVX Support</div><div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace">axexvx.link</div></div>
+        </div>
+        <div class="cd">Link not working, file upload issues, analytics not showing, domain connection, monetization queries</div>
+        <a href="mailto:support@axexvx.link" class="cl">support@axexvx.link→</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:1.5rem">🤖</span>
+          <div><div class="ct" style="margin:0">AxeB2B AI Support</div><div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace">axeb2b.ai</div></div>
+        </div>
+        <div class="cd">Chatbot training, social posting errors, AI content issues, platform connection, API queries</div>
+        <a href="mailto:Aisupport@axeb2b.ai" class="cl">Aisupport@axeb2b.ai→</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:1.5rem">💰</span>
+          <div><div class="ct" style="margin:0">Wallet Support</div><div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace">axeb2b.wallet</div></div>
+        </div>
+        <div class="cd">Payment failed, KYC verification, eSIM activation, domain transfer, withdrawal queries</div>
+        <a href="mailto:wallet@kimiaxe.com" class="cl">wallet@kimiaxe.com →</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:1.5rem">📣</span>
+          <div><div class="ct" style="margin:0">AxeSocials Support</div><div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace">axesocials.com</div></div>
+        </div>
+        <div class="cd">Account connection, scheduling errors, analytics issues, agency setup, billing queries</div>
+        <a href="mailto:socials@kimiaxe.com" class="cl">socials@kimiaxe.com →</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:1.5rem">🌐</span>
+          <div><div class="ct" style="margin:0">General Support</div><div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace">kimiaxe.com</div></div>
+        </div>
+        <div class="cd">Account issues, login problems, billing, subscription, refund requests, general queries</div>
+        <a href="mailto:support@kimiaxe.com" class="cl">support@kimiaxe.com →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== EMAIL PAGE ==================== -->
+<div id="page-email" class="page">
+  <div class="ph">
+    <div class="pl">Email Us</div>
+    <div class="pt">Drop us an <em>email</em></div>
+    <div class="pd">All emails are answered within 2-4 business hours. For urgent issues use Telegram.</div>
+  </div>
+
+  <div class="sec">
+    <div class="g2">
+      <div>
+        <div class="sl">Compose Email</div>
+        <div class="st">Write to <em>our team</em></div>
+        <div class="fg"><label class="fl">Your Name</label><input class="fi" placeholder="Your full name" /></div>
+        <div class="fg"><label class="fl">Your Email</label><input class="fi" type="email" placeholder="you@example.com" /></div>
+        <div class="fg"><label class="fl">Company (Optional)</label><input class="fi" placeholder="Your company name" /></div>
+        <div class="fg">
+          <label class="fl">Department</label>
+          <select class="fi">
+            <option>General Support — support@kimiaxe.com</option>
+            <option>Sales & Pricing — sales@kimiaxe.com</option>
+            <option>Partnership — partner@kimiaxe.com</option>
+            <option>AxeSMS Support — support@axesms.org</option>
+            <option>AxeXVX Support — support@axexvx.link</option>
+            <option>AI Support — Aisupport@axeb2b.ai</option>
+            <option>Wallet Support — wallet@kimiaxe.com</option>
+            <option>Billing — billing@kimiaxe.com</option>
+            <option>Press & Media — press@kimiaxe.com</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Subject</label><input class="fi" placeholder="Brief description of your query" /></div>
+        <div class="fg"><label class="fl">Message</label><textarea class="fi" style="min-height:160px" placeholder="Describe your issue or query in detail. Include any error messages, screenshots descriptions, or account details that might help us assist you faster."></textarea></div>
+        <div class="fg">
+          <label class="fl">Priority</label>
+          <select class="fi">
+            <option>Normal — Response in 2-4 hours</option>
+            <option>High — Response in 1-2 hours</option>
+            <option>Urgent — For production outages</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="sbtn" onclick="submitEmail()">Send Email →</button>
+          <a href="mailto:support@kimiaxe.com" class="obtn">Open Mail App</a>
+        </div>
+        <div class="success-msg" id="emailSuccessMsg">✓ Your email has been sent! Expect a reply within 2-4 hours.</div>
+      </div>
+      <div>
+        <div class="sl">Email Directory</div>
+        <div class="st">Direct <em>contacts</em></div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:0.82rem;font-weight:600">General Support</div>
+              <div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace;margin-top:2px">support@kimiaxe.com</div>
+            </div>
+            <a href="mailto:support@kimiaxe.com" style="font-size:0.75rem;color:var(--muted);text-decoration:none">→</a>
+          </div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:0.82rem;font-weight:600">Sales & Pricing</div>
+              <div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace;margin-top:2px">sales@kimiaxe.com</div>
+            </div>
+            <a href="mailto:sales@kimiaxe.com" style="font-size:0.75rem;color:var(--muted);text-decoration:none">→</a>
+          </div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:0.82rem;font-weight:600">Partnership</div>
+              <div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace;margin-top:2px">partner@kimiaxe.com</div>
+            </div>
+            <a href="mailto:partner@kimiaxe.com" style="font-size:0.75rem;color:var(--muted);text-decoration:none">→</a>
+          </div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:0.82rem;font-weight:600">Billing</div>
+              <div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace;margin-top:2px">billing@kimiaxe.com</div>
+            </div>
+            <a href="mailto:billing@kimiaxe.com" style="font-size:0.75rem;color:var(--muted);text-decoration:none">→</a>
+          </div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:0.82rem;font-weight:600">Press & Media</div>
+              <div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace;margin-top:2px">press@kimiaxe.com</div>
+            </div>
+            <a href="mailto:press@kimiaxe.com" style="font-size:0.75rem;color:var(--muted);text-decoration:none">→</a>
+          </div>
+          <div style="padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:0.82rem;font-weight:600">Privacy</div>
+              <div style="font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace;margin-top:2px">privacy@kimiaxe.com</div>
+            </div>
+            <a href="mailto:privacy@kimiaxe.com" style="font-size:0.75rem;color:var(--muted);text-decoration:none">→</a>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="ci">⚡</div>
+          <div class="ct">Need Faster Help?</div>
+          <div class="cd">For urgent issues, our Telegram bot responds instantly 24/7.</div>
+          <a href="https://t.me/KimiaxeBot" class="cl">@KimiaxeBot →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== STATUS PAGE ==================== -->
+<div id="page-status" class="page">
+  <div class="ph">
+    <div class="pl">System Status</div>
+    <div class="pt">All systems <em>operational</em></div>
+    <div class="pd">Real-time status of all KimiAxe platforms and services. Updated every 60 seconds.</div>
+  </div>
+
+  <div class="sec">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px;padding:16px 20px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);border-radius:10px">
+      <div class="status-dot dot-green"></div>
+      <div style="font-size:0.92rem;font-weight:600">All Systems Operational</div>
+      <div style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-family:'Geist Mono',monospace">Last checked: Just now</div>
+    </div>
+
+    <div class="sl">Platform Status</div>
+    <div class="st">Live <em>status</em></div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:32px">
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">KimiAxe Main — kimiaxe.com</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">AxeSMS — Bulk SMS & Email</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">AxeXVX — Link Shortener</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">AxeB2B AI — Chatbot & Poster</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">AxeB2B Wallet — Payments</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">AxeSocials — Social Media</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">Cloudflare CDN — Global</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">Database — D1 / PostgreSQL</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">API Gateway</div></div><span class="status-badge badge-op">Operational</span></div>
+      <div class="status-item"><div class="status-left"><div class="status-dot dot-green"></div><div class="status-name">Telegram Bot — @KimiaxeBot</div></div><span class="status-badge badge-op">Operational</span></div>
+    </div>
+
+    <div class="sl">Uptime — Last 30 Days</div>
+    <div class="g4">
+      <div class="card" style="text-align:center"><div style="font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px">99.9%</div><div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;margin-top:4px;text-transform:uppercase">Overall</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px">0</div><div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;margin-top:4px;text-transform:uppercase">Incidents</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px">12ms</div><div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;margin-top:4px;text-transform:uppercase">Avg Response</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px">24/7</div><div style="font-size:0.72rem;color:var(--muted);letter-spacing:2px;margin-top:4px;text-transform:uppercase">Monitoring</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FAQ PAGE ==================== -->
+<div id="page-faq" class="page">
+  <div class="ph">
+    <div class="pl">FAQ</div>
+    <div class="pt">Frequently asked <em>questions</em></div>
+    <div class="pd">Quick answers to the most common questions about KimiAxe.</div>
+  </div>
+
+  <div class="sec">
+    <div class="g2">
+      <div>
+        <div class="sl">General</div>
+        <div class="st" style="margin-bottom:24px">About <em>KimiAxe</em></div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">What is KimiAxe? <span class="faq-icon">+</span></div>
+          <div class="faq-a">KimiAxe is a complete Business Operating System with 6 powerful platforms — Bulk SMS, Link Shortener, AI Chatbot & Marketing, Digital Wallet + eSIM + Domains, and Social Media Management. All under one account.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Is it really free to sign up? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes! Creating a KimiAxe account is completely free. No credit card required. You only pay when you use specific services like sending SMS or purchasing eSIM plans.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Can I use one account for all platforms? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes! Single Sign-On (SSO) is a core feature. One account gives you access to all 6 platforms. One wallet funds all services.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Is KimiAxe available outside India? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes! While we're based in India, our services work globally. SMS reaches 190+ countries, eSIM covers 190+ countries, and all platforms support global users.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Do you offer a reseller program? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes! We have a comprehensive reseller program. You can white-label and resell SMS, eSIM, domains, AI tools, and social media services under your own brand. Contact partner@kimiaxe.com.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">What payment methods are accepted? <span class="faq-icon">+</span></div>
+          <div class="faq-a">We accept UPI, Credit/Debit Cards, Net Banking, and major cryptocurrencies (Bitcoin, USDT, Ethereum). Payments via PhonePe, GPay, and Paytm are also supported.</div>
+        </div>
+      </div>
+      <div>
+        <div class="sl">Technical</div>
+        <div class="st" style="margin-bottom:24px">Technical <em>questions</em></div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Is there an API available? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes! Every KimiAxe service has a REST API. We also support Webhooks, Zapier integration, and SDKs for PHP, Node.js, and Python.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">How does the AI auto-fix work? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Our AI monitors all your connected websites 24/7. When it detects an error, broken link, or downtime, it automatically applies a fix, logs the issue, and sends you a notification.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">How does auto social posting work? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Connect your websites in AxeB2B AI. The AI scans your sites daily for new content, generates a post with image, and auto-publishes to all connected social platforms at the optimal time.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">What is the SMS delivery rate? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Our SMS delivery rate is 99.5% for valid Indian numbers. International delivery rates vary by country. DND numbers are automatically filtered for promotional campaigns.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">How do I activate an eSIM? <span class="faq-icon">+</span></div>
+          <div class="faq-a">After purchase, you receive a QR code. Scan it in your phone's Settings → Mobile Data → Add eSIM. Activation is instant. Your device must support eSIM (most modern phones do).</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">Is my data secure? <span class="faq-icon">+</span></div>
+          <div class="faq-a">Absolutely. We use AES-256 encryption for data at rest, TLS 1.3 for data in transit, 2FA authentication, KYC verification, and DDoS protection. Your data is never sold to third parties.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-label"><span>Still have questions?</span></div>
+  <div style="text-align:center;padding:40px 0">
+    <div style="font-family:'Instrument Serif',serif;font-size:2rem;letter-spacing:-1px;margin-bottom:12px">Can't find your answer?</div>
+    <div style="color:var(--muted);font-size:0.92rem;margin-bottom:28px">Our team is ready to help. Reach out anytime.</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="https://t.me/KimiaxeBot" class="sbtn" style="display:inline-block;text-decoration:none">Ask on Telegram →</a>
+      <button class="obtn" onclick="showPage('contact');document.querySelector('[onclick*=contact]').click()">Contact Us</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="fc">© 2025 KimiAxe — The Complete Business OS</div>
+    <div class="footer-links">
+      <a href="kimiaxe.html">Home</a>
+      <a href="axesms.html">AxeSMS</a>
+      <a href="axexvx.html">AxeXVX</a>
+      <a href="axeb2bai.html">AxeB2B AI</a>
+      <a href="axeb2bwallet.html">Wallet</a>
+      <a href="axesocials.html">Socials</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleFaq(el) {
+  el.classList.toggle('open');
+}
+function submitForm() {
+  document.getElementById('successMsg').style.display = 'block';
+  setTimeout(() => document.getElementById('successMsg').style.display = 'none', 5000);
+}
+function submitEmail() {
+  document.getElementById('emailSuccessMsg').style.display = 'block';
+  setTimeout(() => document.getElementById('emailSuccessMsg').style.display = 'none', 5000);
+}
+</script>
+</body>
+</html>

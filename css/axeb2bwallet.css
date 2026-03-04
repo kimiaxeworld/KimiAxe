@@ -334,3 +334,72 @@
   color: var(--wallet-accent);
   background: var(--wallet-badge-bg);
 }
+
+/* ---- DOMAIN SEARCH SECTION ---- */
+.domain-search-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+#domain-input:focus {
+  border-color: var(--wallet-accent) !important;
+  box-shadow: 0 0 0 3px var(--wallet-glow);
+}
+
+#domain-results .domain-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#domain-results .domain-row.available:hover {
+  border-color: var(--wallet-accent);
+  box-shadow: 0 4px 16px var(--wallet-glow);
+}
+
+#domain-results .domain-row.taken {
+  opacity: 0.5;
+}
+
+#domain-results .domain-name {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+#domain-results .domain-status {
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+#domain-results .domain-status.ok {
+  color: #22c55e;
+}
+
+#domain-results .domain-status.no {
+  color: #ef4444;
+}
+
+#domain-results .domain-price {
+  font-family: 'Geist Mono', monospace;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.domain-cart-bar {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
+  border: 1px solid var(--wallet-badge-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  animation: fadeUp 0.3s ease both;
+}

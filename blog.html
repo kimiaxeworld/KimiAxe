@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Blog — KimiAxe</title><link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.gbg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--bd);background:rgba(0,0,0,0.92);backdrop-filter:blur(20px);height:56px;display:flex;align-items:center}
+.ni{max-width:1200px;margin:0 auto;padding:0 24px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Geist Mono',monospace;font-size:1.05rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.nl{display:flex;align-items:center;gap:2px}
+.nl a{color:var(--m);font-size:0.8rem;padding:6px 11px;border-radius:6px;transition:all 0.15s}
+.nl a:hover,.nl a.on{color:var(--t);background:var(--bg3)}
+.nr{display:flex;align-items:center;gap:8px}
+.bw{background:var(--t);color:#000;padding:7px 16px;border-radius:6px;font-weight:600;font-size:0.8rem;transition:all 0.15s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.bw:hover{background:#e5e5e5}
+.bo{border:1px solid var(--bd2);color:var(--t);padding:7px 16px;border-radius:6px;font-size:0.8rem;transition:all 0.15s;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif}
+.bo:hover{border-color:#555}
+.wrap{max-width:1200px;margin:0 auto;padding:80px 24px 100px;position:relative;z-index:1}
+.ph{padding:56px 0 48px;border-bottom:1px solid var(--bd);margin-bottom:56px}
+.pl{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.pt{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,4.5vw,3.5rem);letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px}
+.pt em{font-style:italic;color:var(--m)}
+.pd{font-size:0.92rem;color:var(--m);max-width:480px;line-height:1.75}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:24px;transition:border-color 0.2s}
+.card:hover{border-color:var(--bd2)}
+.ci{font-size:1.4rem;margin-bottom:12px}
+.ct{font-size:0.92rem;font-weight:700;margin-bottom:6px}
+.cd{font-size:0.8rem;color:var(--m);line-height:1.7;margin-bottom:14px}
+.cl{font-size:0.75rem;color:var(--t);font-family:'Geist Mono',monospace;border-bottom:1px solid var(--bd2);padding-bottom:2px;display:inline-block}
+.cl:hover{border-color:var(--t)}
+.sec{margin-bottom:52px}
+.sl{font-family:'Geist Mono',monospace;font-size:0.65rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.st{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,2.8vw,2.2rem);letter-spacing:-0.8px;margin-bottom:28px}
+.st em{font-style:italic;color:var(--m)}
+.fg{margin-bottom:16px}
+.fl{font-size:0.68rem;color:var(--m2);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;display:block;font-family:'Geist Mono',monospace}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:12px 15px;color:var(--t);font-size:0.87rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.15s}
+.fi:focus{border-color:var(--bd2)}
+.fi::placeholder{color:var(--m)}
+textarea.fi{resize:vertical;min-height:120px}
+select.fi{cursor:pointer}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.divl{display:flex;align-items:center;gap:14px;margin:44px 0}
+.divl span{font-family:'Geist Mono',monospace;font-size:0.62rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.divl::before,.divl::after{content:'';flex:1;height:1px;background:var(--bd)}
+footer{border-top:1px solid var(--bd);padding:32px 24px;margin-top:80px;position:relative;z-index:1}
+.fi2{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.fc{font-size:0.72rem;color:var(--m)}
+.flinks{display:flex;gap:18px;flex-wrap:wrap}
+.flinks a{font-size:0.72rem;color:var(--m)}
+.flinks a:hover{color:var(--t)}
+@media(max-width:768px){.g2,.g3,.g4,.fr2{grid-template-columns:1fr}.nl{display:none}}
+</style></head><body><div class="gbg"></div><nav><div class="ni"><a href="index.html" class="logo">kimi<span>axe</span></a><div class="nl"><a href="about.html">About</a><a href="pricing.html">Pricing</a><a href="blog.html" class="on">Blog</a><a href="docs.html">Docs</a><a href="contact.html">Contact</a></div><div class="nr"><a href="login.html" class="bo">Login</a><a href="register.html" class="bw">Get Started</a></div></div></nav><div class="wrap">
+<div class="ph"><div class="pl">Blog & Updates</div><div class="pt">Latest from <em>KimiAxe</em></div><div class="pd">Product updates, tutorials, business tips, and industry insights.</div></div>
+<div class="sec"><div style="display:flex;gap:10px;margin-bottom:32px;flex-wrap:wrap">
+<button onclick="filterBlog('all',this)" style="padding:6px 16px;border-radius:100px;border:1px solid #fff;background:#fff;color:#000;font-size:.78rem;cursor:pointer;font-family:DM Sans,sans-serif">All</button>
+<button onclick="filterBlog('product',this)" style="padding:6px 16px;border-radius:100px;border:1px solid #333;background:transparent;color:#666;font-size:.78rem;cursor:pointer;font-family:DM Sans,sans-serif">Product</button>
+<button onclick="filterBlog('tutorial',this)" style="padding:6px 16px;border-radius:100px;border:1px solid #333;background:transparent;color:#666;font-size:.78rem;cursor:pointer;font-family:DM Sans,sans-serif">Tutorial</button>
+<button onclick="filterBlog('tips',this)" style="padding:6px 16px;border-radius:100px;border:1px solid #333;background:transparent;color:#666;font-size:.78rem;cursor:pointer;font-family:DM Sans,sans-serif">Business Tips</button>
+</div>
+<div class="g3">
+<div class="card"><div style="display:flex;gap:8px;margin-bottom:14px"><span style="font-size:.65rem;font-family:Geist Mono,monospace;color:#fff;background:#111;border:1px solid #333;padding:3px 8px;border-radius:4px">PRODUCT</span></div><div class="ct" style="font-size:1rem;margin-bottom:8px">KimiAxe 6-Platform Ecosystem is Live!</div><div class="cd">We launched our complete Business OS — 6 platforms, one account, one wallet. Here is what is included...</div><div style="font-size:.72rem;color:#666;font-family:Geist Mono,monospace;margin-bottom:14px">March 1, 2025 · 5 min read</div><a href="#" class="cl">Read More →</a></div>
+<div class="card"><div style="display:flex;gap:8px;margin-bottom:14px"><span style="font-size:.65rem;font-family:Geist Mono,monospace;color:#fff;background:#111;border:1px solid #333;padding:3px 8px;border-radius:4px">TUTORIAL</span></div><div class="ct" style="font-size:1rem;margin-bottom:8px">How to Send 1 Million SMS in 10 Minutes</div><div class="cd">Step-by-step guide to setting up bulk SMS campaigns with AxeSMS. From API setup to delivery reports...</div><div style="font-size:.72rem;color:#666;font-family:Geist Mono,monospace;margin-bottom:14px">Feb 28, 2025 · 8 min read</div><a href="#" class="cl">Read More →</a></div>
+<div class="card"><div style="display:flex;gap:8px;margin-bottom:14px"><span style="font-size:.65rem;font-family:Geist Mono,monospace;color:#fff;background:#111;border:1px solid #333;padding:3px 8px;border-radius:4px">TIPS</span></div><div class="ct" style="font-size:1rem;margin-bottom:8px">Why SMS Marketing Has 6x Better ROI Than Email</div><div class="cd">SMS open rates are 98%. Email? 20%. Here is why smart businesses are switching to bulk SMS campaigns...</div><div style="font-size:.72rem;color:#666;font-family:Geist Mono,monospace;margin-bottom:14px">Feb 25, 2025 · 4 min read</div><a href="#" class="cl">Read More →</a></div>
+<div class="card"><div style="display:flex;gap:8px;margin-bottom:14px"><span style="font-size:.65rem;font-family:Geist Mono,monospace;color:#fff;background:#111;border:1px solid #333;padding:3px 8px;border-radius:4px">TUTORIAL</span></div><div class="ct" style="font-size:1rem;margin-bottom:8px">Setting Up AI Chatbot Without Any Coding</div><div class="cd">Build and deploy a fully trained AI chatbot on your website and WhatsApp in under 30 minutes...</div><div style="font-size:.72rem;color:#666;font-family:Geist Mono,monospace;margin-bottom:14px">Feb 22, 2025 · 6 min read</div><a href="#" class="cl">Read More →</a></div>
+<div class="card"><div style="display:flex;gap:8px;margin-bottom:14px"><span style="font-size:.65rem;font-family:Geist Mono,monospace;color:#fff;background:#111;border:1px solid #333;padding:3px 8px;border-radius:4px">PRODUCT</span></div><div class="ct" style="font-size:1rem;margin-bottom:8px">eSIM Now Available in 190+ Countries</div><div class="cd">Travel without roaming charges. Our eSIM marketplace now covers 190+ countries with instant activation...</div><div style="font-size:.72rem;color:#666;font-family:Geist Mono,monospace;margin-bottom:14px">Feb 18, 2025 · 3 min read</div><a href="#" class="cl">Read More →</a></div>
+<div class="card"><div style="display:flex;gap:8px;margin-bottom:14px"><span style="font-size:.65rem;font-family:Geist Mono,monospace;color:#fff;background:#111;border:1px solid #333;padding:3px 8px;border-radius:4px">TIPS</span></div><div class="ct" style="font-size:1rem;margin-bottom:8px">How to Automate Your Social Media in 2025</div><div class="cd">Stop manually posting. Here is how to set up AI-powered auto social posting across 9 platforms...</div><div style="font-size:.72rem;color:#666;font-family:Geist Mono,monospace;margin-bottom:14px">Feb 15, 2025 · 5 min read</div><a href="#" class="cl">Read More →</a></div>
+</div></div>
+<div style="text-align:center;padding:32px"><a href="#" class="obtn">Load More Posts</a></div>
+</div><footer><div class="fi2"><span class="fc">© 2025 KimiAxe</span><div class="flinks"><a href="index.html">Home</a><a href="about.html">About</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a><a href="contact.html">Contact</a><a href="support.html">Support</a><a href="status.html">Status</a><a href="#">Privacy</a><a href="#">Terms</a></div></div></footer></body></html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Reseller Panel — AxeSMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999;--sw:220px}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);border-right:1px solid var(--bd);background:var(--bg);z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--bd)}
+.logo{font-family:'Geist Mono',monospace;font-size:1rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.sb-plat{padding:12px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.sb-section{padding:10px 10px 4px}
+.sb-label{font-size:0.58rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;font-family:'Geist Mono',monospace;padding:0 8px;margin-bottom:3px}
+.sb-link{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;font-size:0.8rem;color:var(--m);cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-link:hover,.sb-link.active{background:var(--bg3);color:var(--t)}
+.sb-link .ic{width:18px;text-align:center}
+.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--bd)}
+.main{margin-left:var(--sw);min-height:100vh}
+.topbar{height:52px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-title{font-size:0.9rem;font-weight:700}
+.tb-r{display:flex;gap:8px}
+.pbtn{background:var(--t);color:#000;padding:7px 14px;border-radius:7px;font-weight:700;font-size:0.78rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.pbtn:hover{background:#e5e5e5}
+.obtn{background:transparent;color:var(--t);padding:7px 14px;border-radius:7px;font-size:0.78rem;border:1px solid var(--bd2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.content{padding:24px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.sc-l{font-size:0.65rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;font-family:'Geist Mono',monospace;margin-bottom:6px}
+.sc-v{font-family:'Instrument Serif',serif;font-size:1.8rem;letter-spacing:-1px}
+.sc-s{font-size:0.7rem;color:var(--m);margin-top:2px}
+.sc-s.up{color:#22c55e}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.panel{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
+.p-title{font-size:0.88rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.fg{margin-bottom:12px}
+.fl{font-size:0.65rem;color:var(--m2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:block;font-family:'Geist Mono',monospace}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:7px;padding:10px 13px;color:var(--t);font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--bd2)}
+.fi::placeholder{color:var(--m)}
+select.fi{cursor:pointer}
+.rate-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}
+.rate-row:last-child{border-bottom:none}
+.rr-name{font-size:0.82rem}
+.rr-cost{font-family:'Geist Mono',monospace;font-size:0.78rem;color:var(--m)}
+.rr-price{font-family:'Geist Mono',monospace;font-size:0.78rem;color:var(--t)}
+.rr-margin{font-family:'Geist Mono',monospace;font-size:0.78rem;color:#22c55e}
+.sub-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bd)}
+.sub-row:last-child{border-bottom:none}
+.sr-info{font-size:0.82rem}
+.sr-sub{font-size:0.68rem;color:var(--m);margin-top:2px;font-family:'Geist Mono',monospace}
+.badge-active{font-size:0.62rem;background:rgba(34,197,94,0.08);color:#22c55e;border:1px solid rgba(34,197,94,0.15);padding:2px 7px;border-radius:4px;font-family:'Geist Mono',monospace}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.stats-row,.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><a href="sms-dashboard.html" class="logo">axe<span>sms</span></a></div>
+  <div class="sb-plat"><span style="font-size:1.2rem">🏪</span><div><div style="font-size:0.88rem;font-weight:700">Reseller Panel</div><div style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">panel.axesms.org</div></div></div>
+  <div class="sb-section">
+    <div class="sb-label">Reseller</div>
+    <div class="sb-link active"><span class="ic">⊞</span> Overview</div>
+    <div class="sb-link"><span class="ic">👥</span> My Clients</div>
+    <div class="sb-link"><span class="ic">📦</span> Add Credits</div>
+    <div class="sb-link"><span class="ic">💰</span> Earnings</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Manage</div>
+    <div class="sb-link"><span class="ic">💲</span> Pricing Rates</div>
+    <div class="sb-link"><span class="ic">📊</span> Reports</div>
+    <div class="sb-link"><span class="ic">🎨</span> White Label</div>
+    <div class="sb-link"><span class="ic">🔑</span> API Access</div>
+  </div>
+  <div class="sb-bottom">
+    <a href="sms-dashboard.html" class="sb-link"><span class="ic">←</span> AxeSMS Dashboard</a>
+    <a href="dashboard.html" class="sb-link"><span class="ic">⊞</span> KimiAxe Hub</a>
+  </div>
+</div>
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><span>🏪</span><div class="tb-title">AxeSMS Reseller Panel</div></div>
+    <div class="tb-r">
+      <button class="obtn">📊 Export Report</button>
+      <button class="pbtn">+ Add Client</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="stats-row">
+      <div class="sc"><div class="sc-l">My Balance</div><div class="sc-v">₹0</div><div class="sc-s">Reseller wallet</div></div>
+      <div class="sc"><div class="sc-l">Total Clients</div><div class="sc-v">0</div><div class="sc-s up">Add first client</div></div>
+      <div class="sc"><div class="sc-l">SMS Sold</div><div class="sc-v">0</div><div class="sc-s">This month</div></div>
+      <div class="sc"><div class="sc-l">Total Earned</div><div class="sc-v">₹0</div><div class="sc-s up">Your profit margin</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <div class="p-title">Your SMS Pricing Rates</div>
+        <div style="padding:8px 0;margin-bottom:8px">
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd);margin-bottom:6px">
+            <div style="font-size:0.62rem;color:var(--m);font-family:'Geist Mono',monospace;letter-spacing:1px">TYPE</div>
+            <div style="font-size:0.62rem;color:var(--m);font-family:'Geist Mono',monospace;letter-spacing:1px">COST</div>
+            <div style="font-size:0.62rem;color:var(--m);font-family:'Geist Mono',monospace;letter-spacing:1px">YOUR PRICE</div>
+            <div style="font-size:0.62rem;color:var(--m);font-family:'Geist Mono',monospace;letter-spacing:1px">MARGIN</div>
+          </div>
+          <div class="rate-row"><div class="rr-name">Promotional SMS</div><div class="rr-cost">₹0.18</div><div class="rr-price">₹0.30</div><div class="rr-margin">₹0.12</div></div>
+          <div class="rate-row"><div class="rr-name">Transactional SMS</div><div class="rr-cost">₹0.22</div><div class="rr-price">₹0.35</div><div class="rr-margin">₹0.13</div></div>
+          <div class="rate-row"><div class="rr-name">OTP SMS</div><div class="rr-cost">₹0.15</div><div class="rr-price">₹0.25</div><div class="rr-margin">₹0.10</div></div>
+          <div class="rate-row"><div class="rr-name">WhatsApp</div><div class="rr-cost">₹0.35</div><div class="rr-price">₹0.55</div><div class="rr-margin">₹0.20</div></div>
+          <div class="rate-row"><div class="rr-name">Email</div><div class="rr-cost">₹0.02</div><div class="rr-price">₹0.05</div><div class="rr-margin">₹0.03</div></div>
+        </div>
+        <button class="obtn" style="font-size:0.75rem;padding:7px 14px">✏️ Edit Rates</button>
+      </div>
+
+      <div class="panel">
+        <div class="p-title">Add New Client</div>
+        <div class="fg"><label class="fl">Client Name</label><input class="fi" placeholder="Business name"/></div>
+        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="client@business.com"/></div>
+        <div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" placeholder="+91 98765 43210"/></div>
+        <div class="fg"><label class="fl">Initial SMS Credits</label><input class="fi" type="number" placeholder="10000"/></div>
+        <div class="fg"><label class="fl">Rate Plan</label><select class="fi"><option>Standard Plan</option><option>Premium Plan</option><option>Custom Rates</option></select></div>
+        <button class="pbtn" style="width:100%;padding:11px">Create Client Account →</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="p-title">My Clients <button class="obtn" style="font-size:0.72rem;padding:5px 12px">Export</button></div>
+      <div style="padding:32px;text-align:center;color:var(--m);font-size:0.78rem">No clients yet. Add your first client above and start earning!</div>
+    </div>
+
+    <div class="panel">
+      <div class="p-title">White Label Setup</div>
+      <div class="grid2" style="margin-bottom:0">
+        <div class="fg"><label class="fl">Your Brand Name</label><input class="fi" placeholder="YourSMS Pro"/></div>
+        <div class="fg"><label class="fl">Custom Domain</label><input class="fi" placeholder="sms.yourdomain.com"/></div>
+        <div class="fg"><label class="fl">Support Email</label><input class="fi" placeholder="support@yourdomain.com"/></div>
+        <div class="fg"><label class="fl">Logo URL</label><input class="fi" placeholder="https://yourdomain.com/logo.png"/></div>
+      </div>
+      <button class="pbtn" style="padding:10px 20px">Save White Label Settings →</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

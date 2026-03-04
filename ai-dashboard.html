@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AxeB2B AI Dashboard — KimiAxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--bg2:#0a0a0a;--bg3:#111;--bd:#222;--bd2:#333;--t:#fff;--m:#666;--m2:#999;--sw:220px}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);border-right:1px solid var(--bd);background:var(--bg);z-index:100;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--bd)}
+.logo{font-family:'Geist Mono',monospace;font-size:1rem;font-weight:700;color:var(--t)}
+.logo span{color:var(--m)}
+.sb-plat{padding:12px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.sb-section{padding:10px 10px 4px}
+.sb-label{font-size:0.58rem;color:var(--m);letter-spacing:3px;text-transform:uppercase;font-family:'Geist Mono',monospace;padding:0 8px;margin-bottom:3px}
+.sb-link{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;font-size:0.8rem;color:var(--m);cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-link:hover,.sb-link.active{background:var(--bg3);color:var(--t)}
+.sb-link .ic{width:18px;text-align:center}
+.sb-bottom{margin-top:auto;padding:10px;border-top:1px solid var(--bd)}
+.main{margin-left:var(--sw);min-height:100vh}
+.topbar{height:52px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-title{font-size:0.9rem;font-weight:700}
+.tb-r{display:flex;gap:8px}
+.pbtn{background:var(--t);color:#000;padding:7px 14px;border-radius:7px;font-weight:700;font-size:0.78rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.pbtn:hover{background:#e5e5e5}
+.obtn{background:transparent;color:var(--t);padding:7px 14px;border-radius:7px;font-size:0.78rem;border:1px solid var(--bd2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.obtn:hover{border-color:#555}
+.content{padding:24px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.sc-l{font-size:0.65rem;color:var(--m);letter-spacing:2px;text-transform:uppercase;font-family:'Geist Mono',monospace;margin-bottom:6px}
+.sc-v{font-family:'Instrument Serif',serif;font-size:1.8rem;letter-spacing:-1px}
+.sc-s{font-size:0.7rem;color:var(--m);margin-top:2px}
+.sc-s.up{color:#22c55e}
+.tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:20px}
+.tab{padding:10px 18px;font-size:0.8rem;color:var(--m);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab.active{color:var(--t);border-bottom-color:var(--t)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.panel{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
+.p-title{font-size:0.88rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.fg{margin-bottom:12px}
+.fl{font-size:0.65rem;color:var(--m2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:block;font-family:'Geist Mono',monospace}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:7px;padding:10px 13px;color:var(--t);font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--bd2)}
+.fi::placeholder{color:var(--m)}
+textarea.fi{resize:vertical;min-height:100px}
+select.fi{cursor:pointer}
+/* AI CHAT */
+.chat-area{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:16px;min-height:220px;max-height:320px;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:80%;padding:10px 14px;border-radius:10px;font-size:0.82rem;line-height:1.5}
+.msg.ai{background:var(--bg2);border:1px solid var(--bd);align-self:flex-start}
+.msg.user{background:rgba(255,255,255,0.08);border:1px solid var(--bd2);align-self:flex-end}
+.msg-label{font-size:0.62rem;color:var(--m);font-family:'Geist Mono',monospace;margin-bottom:4px}
+.chat-input-row{display:flex;gap:8px}
+.chat-in{flex:1;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;color:var(--t);font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
+.chat-in:focus{border-color:var(--bd2)}
+.chat-in::placeholder{color:var(--m)}
+.chat-send{background:var(--t);color:#000;padding:10px 18px;border-radius:8px;font-weight:700;font-size:0.82rem;border:none;cursor:pointer;white-space:nowrap}
+/* BOT BUILDER */
+.bot-card{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.bot-card:hover{border-color:var(--bd2)}
+.bc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.bc-name{font-size:0.82rem;font-weight:700}
+.bc-status{font-size:0.62rem;color:#22c55e;font-family:'Geist Mono',monospace;display:flex;align-items:center;gap:4px}
+.bc-status.off{color:var(--m)}
+.dot-g{width:5px;height:5px;background:#22c55e;border-radius:50%;box-shadow:0 0 5px #22c55e}
+.bc-desc{font-size:0.72rem;color:var(--m)}
+/* AUTO POST */
+.site-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bd)}
+.site-row:last-child{border-bottom:none}
+.sr-info{font-size:0.8rem}
+.sr-url{font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace;margin-top:2px}
+.toggle{position:relative;width:36px;height:20px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--bd);border-radius:100px;cursor:pointer;transition:.3s}
+.slider::before{content:'';position:absolute;width:14px;height:14px;left:2px;top:2px;background:var(--m);border-radius:50%;transition:.3s}
+.toggle input:checked+.slider{background:rgba(255,255,255,0.1);border-color:var(--t)}
+.toggle input:checked+.slider::before{transform:translateX(16px);background:var(--t)}
+/* EMBED CODE */
+.code-box{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:14px;font-family:'Geist Mono',monospace;font-size:0.75rem;color:#22c55e;line-height:1.7;overflow-x:auto;margin-bottom:10px}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.stats-row,.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><a href="dashboard.html" class="logo">kimi<span>axe</span></a></div>
+  <div class="sb-plat"><span style="font-size:1.2rem">🤖</span><div><div style="font-size:0.88rem;font-weight:700">AxeB2B AI</div><div style="font-size:0.68rem;color:var(--m);font-family:'Geist Mono',monospace">axeb2b.ai</div></div></div>
+  <div class="sb-section">
+    <div class="sb-label">AI Tools</div>
+    <div class="sb-link active"><span class="ic">💬</span> AI Chat</div>
+    <div class="sb-link"><span class="ic">🤖</span> Bot Builder</div>
+    <div class="sb-link"><span class="ic">📡</span> Auto Poster</div>
+    <div class="sb-link"><span class="ic">✍️</span> AI Writer</div>
+    <div class="sb-link"><span class="ic">🖼️</span> Image Gen</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Manage</div>
+    <div class="sb-link"><span class="ic">📊</span> Analytics</div>
+    <div class="sb-link"><span class="ic">🔗</span> Integrations</div>
+    <div class="sb-link"><span class="ic">🏷️</span> Training Data</div>
+    <div class="sb-link"><span class="ic">🔑</span> API Keys</div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Labs</div>
+    <div class="sb-link"><span class="ic">🧪</span> Beta Features</div>
+    <div class="sb-link"><span class="ic">📖</span> Docs</div>
+  </div>
+  <div class="sb-bottom"><a href="dashboard.html" class="sb-link"><span class="ic">←</span> All Platforms</a></div>
+</div>
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><span>🤖</span><div class="tb-title">AxeB2B AI Dashboard</div></div>
+    <div class="tb-r">
+      <button class="obtn">🧪 Beta Labs</button>
+      <button class="pbtn">+ New Bot</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="stats-row">
+      <div class="sc"><div class="sc-l">AI Messages</div><div class="sc-v">0</div><div class="sc-s">This month</div></div>
+      <div class="sc"><div class="sc-l">Active Bots</div><div class="sc-v">0</div><div class="sc-s up">Create first bot</div></div>
+      <div class="sc"><div class="sc-l">Auto Posts</div><div class="sc-v">0</div><div class="sc-s">Connect sites</div></div>
+      <div class="sc"><div class="sc-l">Images Gen</div><div class="sc-v">0</div><div class="sc-s">AI images made</div></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'chat')">AI Chat</div>
+      <div class="tab" onclick="switchTab(this,'bots')">Bot Builder</div>
+      <div class="tab" onclick="switchTab(this,'poster')">Auto Poster</div>
+      <div class="tab" onclick="switchTab(this,'writer')">AI Writer</div>
+      <div class="tab" onclick="switchTab(this,'embed')">Embed</div>
+    </div>
+
+    <!-- AI CHAT -->
+    <div id="tab-chat">
+      <div class="panel">
+        <div class="p-title">AI Chat — Powered by Claude API</div>
+        <div class="chat-area" id="chatArea">
+          <div class="msg ai"><div class="msg-label">🤖 KimiAxe AI</div>Hello! I'm your KimiAxe AI assistant. I can help you write content, answer questions, create social posts, and more. What would you like to do today?</div>
+        </div>
+        <div class="chat-input-row">
+          <input class="chat-in" id="chatIn" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+          <button class="chat-send" onclick="sendMsg()">Send →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOT BUILDER -->
+    <div id="tab-bots" style="display:none">
+      <div class="grid2">
+        <div class="panel">
+          <div class="p-title">My Bots <button class="pbtn" style="font-size:0.72rem;padding:5px 10px">+ New Bot</button></div>
+          <div class="bot-card">
+            <div class="bc-top"><div class="bc-name">Customer Support Bot</div><div class="bc-status off">● Inactive</div></div>
+            <div class="bc-desc">Handles FAQs, order tracking, returns</div>
+          </div>
+          <div style="padding:28px;text-align:center;color:var(--m);font-size:0.78rem">Create your first bot to get started!</div>
+        </div>
+        <div class="panel">
+          <div class="p-title">Create New Bot</div>
+          <div class="fg"><label class="fl">Bot Name</label><input class="fi" placeholder="Customer Support Bot"/></div>
+          <div class="fg"><label class="fl">Platform</label><select class="fi"><option>Website Widget</option><option>WhatsApp</option><option>Telegram</option><option>Facebook Messenger</option></select></div>
+          <div class="fg"><label class="fl">System Prompt</label><textarea class="fi" placeholder="You are a helpful customer support agent for [Company]. Answer questions about our products..."></textarea></div>
+          <div class="fg"><label class="fl">Knowledge Base URL</label><input class="fi" placeholder="https://yoursite.com/faq"/></div>
+          <button class="pbtn" style="width:100%;padding:12px">Create Bot →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTO POSTER -->
+    <div id="tab-poster" style="display:none">
+      <div class="panel">
+        <div class="p-title">Auto Social Poster — Sites to Monitor</div>
+        <div class="site-row">
+          <div><div class="sr-info">KimiAxe Main Site</div><div class="sr-url">kimiaxe.com</div></div>
+          <label class="toggle"><input type="checkbox"/><span class="slider"></span></label>
+        </div>
+        <div class="site-row">
+          <div><div class="sr-info">AxeSMS Website</div><div class="sr-url">axesms.org</div></div>
+          <label class="toggle"><input type="checkbox"/><span class="slider"></span></label>
+        </div>
+        <div style="padding:16px 0">
+          <button class="obtn" style="font-size:0.78rem">+ Add Website</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="p-title">Posting Schedule</div>
+        <div class="fg"><label class="fl">Scan Frequency</label><select class="fi"><option>Daily at 9:00 AM</option><option>Twice Daily</option><option>Weekly</option></select></div>
+        <div class="fg"><label class="fl">Post to Platforms</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--m);cursor:pointer"><input type="checkbox" style="accent-color:var(--t)"/> 📘 Facebook</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--m);cursor:pointer"><input type="checkbox" style="accent-color:var(--t)"/> 📸 Instagram</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--m);cursor:pointer"><input type="checkbox" checked style="accent-color:var(--t)"/> ✈️ Telegram</label>
+            <label style="display:flex;align-items:center;gap=6px;font-size:0.78rem;color:var(--m);cursor:pointer"><input type="checkbox" style="accent-color:var(--t)"/> 🐦 Twitter</label>
+          </div>
+        </div>
+        <button class="pbtn" style="padding:11px 24px">Save Settings →</button>
+      </div>
+    </div>
+
+    <!-- AI WRITER -->
+    <div id="tab-writer" style="display:none">
+      <div class="grid2">
+        <div class="panel">
+          <div class="p-title">AI Content Writer</div>
+          <div class="fg"><label class="fl">Content Type</label><select class="fi"><option>Social Media Post</option><option>Blog Article</option><option>SMS Campaign</option><option>Email Newsletter</option><option>Ad Copy</option><option>Product Description</option></select></div>
+          <div class="fg"><label class="fl">Topic / Keywords</label><input class="fi" placeholder="e.g. Bulk SMS marketing India"/></div>
+          <div class="fg"><label class="fl">Tone</label><select class="fi"><option>Professional</option><option>Casual & Friendly</option><option>Urgent / CTA</option><option>Informative</option></select></div>
+          <div class="fg"><label class="fl">Language</label><select class="fi"><option>English</option><option>Hindi</option><option>Hinglish</option></select></div>
+          <button class="pbtn" style="width:100%;padding:12px" onclick="generateContent()">Generate Content →</button>
+        </div>
+        <div class="panel">
+          <div class="p-title">Generated Content</div>
+          <textarea class="fi" id="generatedContent" style="min-height:220px;resize:vertical" placeholder="Your AI-generated content will appear here..."></textarea>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="obtn" style="font-size:0.75rem;padding:7px 14px" onclick="copyContent()">📋 Copy</button>
+            <button class="obtn" style="font-size:0.75rem;padding:7px 14px">📅 Schedule Post</button>
+            <button class="obtn" style="font-size:0.75rem;padding:7px 14px">📧 Send as Email</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMBED -->
+    <div id="tab-embed" style="display:none">
+      <div class="panel">
+        <div class="p-title">Embed Chat Widget on Your Website</div>
+        <div class="code-box">&lt;!-- KimiAxe AI Chatbot Widget --&gt;<br>&lt;script src="https://cdn.axeb2b.ai/widget.js"<br>&nbsp;&nbsp;data-bot-id="YOUR_BOT_ID"<br>&nbsp;&nbsp;data-position="bottom-right"<br>&nbsp;&nbsp;data-theme="dark"<br>&nbsp;&nbsp;data-color="#ffffff"&gt;<br>&lt;/script&gt;</div>
+        <div style="display:flex;gap:8px">
+          <button class="obtn" style="font-size:0.75rem;padding:7px 14px" onclick="alert('Copied!')">📋 Copy Code</button>
+          <button class="obtn" style="font-size:0.75rem;padding:7px 14px">👁️ Preview</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function switchTab(el,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  ['chat','bots','poster','writer','embed'].forEach(t=>{const d=document.getElementById('tab-'+t);if(d)d.style.display=t===id?'block':'none'})
+}
+function sendMsg(){
+  const inp=document.getElementById('chatIn');
+  const msg=inp.value.trim();
+  if(!msg)return;
+  const area=document.getElementById('chatArea');
+  area.innerHTML+=`<div class="msg user"><div class="msg-label">You</div>${msg}</div>`;
+  inp.value='';
+  setTimeout(()=>{
+    const replies=['I can help with that! Let me generate some content for you.','Great question! Here\'s what I recommend for your business.','Sure! I\'ll create that for you right away.','Absolutely! Let me help you with that.'];
+    area.innerHTML+=`<div class="msg ai"><div class="msg-label">🤖 KimiAxe AI</div>${replies[Math.floor(Math.random()*replies.length)]}</div>`;
+    area.scrollTop=area.scrollHeight;
+  },800);
+  area.scrollTop=area.scrollHeight;
+}
+function generateContent(){
+  document.getElementById('generatedContent').value='Generating...';
+  setTimeout(()=>{document.getElementById('generatedContent').value='🚀 Supercharge Your Business with Bulk SMS!\n\nReach thousands of customers instantly with AxeSMS — India\'s most powerful bulk messaging platform.\n\n✅ 99.5% delivery rate\n✅ 190+ countries\n✅ WhatsApp + Email + SMS\n✅ Starting ₹999/month\n\nTry FREE today → axesms.org\n\n#BulkSMS #Marketing #KimiAxe'},1000)
+}
+function copyContent(){navigator.clipboard.writeText(document.getElementById('generatedContent').value).then(()=>alert('Copied!'))}
+</script>
+</body>
+</html>
